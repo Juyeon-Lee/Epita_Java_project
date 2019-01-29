@@ -6,5 +6,5 @@ public class Answer {
 	Student student;
 	Quiz quiz;
 	Question question;
-	
+	////
 }
