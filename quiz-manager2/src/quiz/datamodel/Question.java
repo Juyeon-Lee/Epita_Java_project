@@ -25,7 +25,15 @@ public class Question {
 		this.difficulty = difficulty;
 	}
 	
-	
+	//209-02-09 m update > new 
+	public Question(int id, int difficulty, String question) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.difficulty = difficulty;
+		this.question = question;
+		
+	}
+
 	public String getQuestion() {
 		return question;
 	}
