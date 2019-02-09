@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import quiz.datamodel.MCQQuestion;
 import quiz.datamodel.Question;
 
-public class QuestionJDBCDAO {
+public class MCQQuestionJDBCDAO {
 	
 	
 /*
@@ -19,22 +20,20 @@ DELETE FROM QUESTION WHERE ID = 3;
 select * from question;
 */
 	
-   private static final String INSERT_STATEMENT = "INSERT INTO QUESTION (QUESTION, MCQ, TOPIC, DIFFICULTY) VALUES (?, ?, ?, ?)";
-   private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION";
-   private static final String UPDATE_STATEMENT = "UPDATE QUESTION SET QUESTION=?, MCQ=?, TOPIC=?, DIFFICULTY=? WHERE ID=?";
-   private static final String DELETE_STATEMENT = "DELETE FROM QUESTION WHERE ID = ?";
+   private static final String INSERT_STATEMENT = "INSERT INTO MCQQUESTION (CHOICE1, CHOICE2, CHOICE3, CHOICE4, ANSWER) VALUES (?, ?, ?, ?, ?)";
+   private static final String SEARCH_STATEMENT = "SELECT * FROM MCQQUESTION";
+   private static final String UPDATE_STATEMENT = "UPDATE MCQQUESTION SET CHOICE1=?, CHOICE2=?, CHOICE3=?, CHOICE4=?, ANSWER=? WHERE ID=?";
+   private static final String DELETE_STATEMENT = "DELETE FROM MCQQUESTION WHERE MCQID = ?";
 	
 	
 	
-	public void create(Question question, int mcq) {
+	public void create(MCQQuestion MCQ) {
 		
 		try (Connection connection = getConnection();
 				PreparedStatement insertStatement = connection.prepareStatement(INSERT_STATEMENT);) {
 			
-			insertStatement.setString(1, question.getQuestion());
-			insertStatement.setInt(2, mcq);
-			insertStatement.setString(3, question.getTopics());
-			insertStatement.setInt(4, question.getDifficulty());
+			insertStatement.setString(1, MCQ.getQuestion());
+			insertStatement.setInt(2, MCQ.getDifficulty());
 			
 			insertStatement.execute();
 
@@ -44,15 +43,15 @@ select * from question;
 
 	}
 
-	public void update(Question question) {
+	public void update(MCQQuestion MCQ) {
 		
 
 		
 		try (Connection connection = getConnection();
 			PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
-			updateStatement.setString(1, question.getQuestion());
-			updateStatement.setInt(2, question.getDifficulty());
-			updateStatement.setInt(3, question.getId());
+			updateStatement.setString(1, MCQ.getQuestion());
+			updateStatement.setInt(2, MCQ.getDifficulty());
+			updateStatement.setInt(3, MCQ.getId());
 			updateStatement.executeQuery();
 		}catch (SQLException e) {
 			e.printStackTrace();

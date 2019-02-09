@@ -15,6 +15,10 @@ public class Question {
 		return "Question [id=" + id + ", question=" + question + ", topics=" + topics + ", difficulty=" + difficulty
 				+ "]";
 	}
+	
+	//public String toStringofTopics() {
+		//TODO make toString for topics
+	//}
 
 	public Question() {
 	}
