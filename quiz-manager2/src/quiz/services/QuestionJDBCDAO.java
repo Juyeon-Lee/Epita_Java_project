@@ -93,14 +93,14 @@ select * from question;
 	      QUESTION LIKE '%JV%'
 	      
 	      */
-		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ? AND LIKE ?";
+		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 				) {
 
-			preparedStatement.setInt(1,question.getId());
-			preparedStatement.setInt(2,question.getDifficulty());
-			preparedStatement.setString(3,question.getQuestion()+"%JV%");
+			//preparedStatement.setInt(1,question.getId());
+			preparedStatement.setInt(1,question.getDifficulty());
+			//preparedStatement.setString(3,question.getQuestion());
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
 				int id = results.getInt("ID");
