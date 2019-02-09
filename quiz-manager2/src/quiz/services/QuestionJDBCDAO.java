@@ -14,13 +14,11 @@ public class QuestionJDBCDAO {
 	
 	
 /*
-
-
 DELETE FROM QUESTION WHERE ID = 3;
 
-
-
-select * from question;*/
+select * from question;
+*/
+	
    private static final String INSERT_STATEMENT = "INSERT INTO QUESTION (QUESTION, DIFFICULTY) VALUES (?, ?)";
    private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION";
    private static final String UPDATE_STATEMENT = "UPDATE QUESTION SET QUESTION=?, DIFFICULTY=? WHERE ID=?";
