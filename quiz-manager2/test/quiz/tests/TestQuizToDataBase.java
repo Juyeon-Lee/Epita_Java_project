@@ -14,7 +14,7 @@ public class TestQuizToDataBase {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
-		dao.create(new Question(1,1,"What"));
+		dao.create(new Question(1,1,"What"),1);
 		System.out.println(dao.search(new Question(1,1,"what")));
 	}
 	

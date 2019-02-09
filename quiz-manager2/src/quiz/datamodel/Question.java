@@ -16,9 +16,9 @@ public class Question {
 				+ "]";
 	}
 	
-	//public String toStringofTopics() {
-		//TODO make toString for topics
-	//}
+	public String toStringofTopics() {
+		return String.join(",", topics); //topicsCommaSeparated
+	}
 
 	public Question() {
 	}

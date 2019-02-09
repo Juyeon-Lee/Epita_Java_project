@@ -33,7 +33,7 @@ select * from question;
 			
 			insertStatement.setString(1, question.getQuestion());
 			insertStatement.setInt(2, mcq);
-			insertStatement.setString(3, question.getTopics());
+			insertStatement.setString(3, question.toStringofTopics());
 			insertStatement.setInt(4, question.getDifficulty());
 			
 			insertStatement.execute();
