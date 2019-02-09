@@ -80,6 +80,7 @@ select * from question;
 		}
 	}
 
+	//2019-02-09 3:06 m update -> select query 
 	public List<Question> search(Question question) {
 		List<Question> resultList = new ArrayList<Question>();
 		
@@ -92,16 +93,20 @@ select * from question;
 	      QUESTION LIKE '%JV%'
 	      
 	      */
-		String selectQuery = "select  from QUESTION WHERE ";
+		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ? AND LIKE ?";
 		try (Connection connection = getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 				) {
 
-		
+			preparedStatement.setInt(1,question.getId());
+			preparedStatement.setInt(2,question.getDifficulty());
+			preparedStatement.setString(3,question.getQuestion()+"%JV%");
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
-
-				Question currentQuestion = new Question();
+				int id = results.getInt("ID");
+				int difficulty = results.getInt("DIFFICULTY");
+				String question_1 = results.getString("QUESTION");
+				Question currentQuestion = new Question(id,difficulty,question_1);
 				resultList.add(currentQuestion);
 			}
 			results.close();
