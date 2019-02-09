@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
-import quiz.datamodel.*;
+import quiz.datamodel.Question;
 import quiz.services.QuestionJDBCDAO;
 
 public class TestQuizToDataBase {
@@ -14,8 +16,9 @@ public class TestQuizToDataBase {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
-		dao.create(new Question(1,1,"What"),1);
-		System.out.println(dao.search(new Question(1,1,"what")));
+		List<String> topics = Arrays.asList("dlfjsofjs");
+		dao.create(new Question("dlfjs", topics,1),1);
+		System.out.println(dao.search(new Question(1,1,"dlfjs")));
 	}
 	
 	private static void testInsertIntoDatabase() throws SQLException {
