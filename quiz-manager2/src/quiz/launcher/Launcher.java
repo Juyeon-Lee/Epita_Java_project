@@ -26,8 +26,9 @@ public class Launcher {
 -show (search by topics)
 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		Scanner scanner = new Scanner(System.in);
+		/*
 		String answer;
 		boolean continueAddition = true;
 
@@ -50,7 +51,7 @@ public class Launcher {
 			answer = scanner.nextLine();
 			continueAddition = "Y".equals(answer); //answer.equals("Y");
 		}
-
+*/
 		insertQuestion(scanner);
 
 		scanner.close();
