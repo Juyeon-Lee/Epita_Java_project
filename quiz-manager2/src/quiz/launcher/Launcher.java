@@ -1,10 +1,5 @@
 package quiz.launcher;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
-
 import quiz.datamodel.Answer;
 import quiz.datamodel.MCQQuestion;
 import quiz.datamodel.Question;
@@ -12,6 +7,26 @@ import quiz.datamodel.Student;
 import quiz.services.MCQQuestionJDBCDAO;
 import quiz.services.QuestionJDBCDAO;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.SQLException;
+/*
+	■ admin questions
+-insert(create)
+-update
+-delete
+-show all(read)
+-show (search by topics)
+
+	■ Solve a quiz
+-insert student info
+ : solving a quiz > select Q randomly by topics > show score > export quiz?: Yes?no
+-Search(topic, difficulty)
+-show (search by topics)
+
+	 */
 public class Launcher {
 
     private static Scanner scanner;
@@ -71,19 +86,80 @@ public class Launcher {
             answer = scanner.nextLine();
             continueAddition = "N".equals(answer); // answer.equals("Y");
         }
+        scanner.close();
         return grade;
     }
 
-    private static Student studentAccount(Scanner scanner) {
-        System.out.println("Please enter a name");
-        String name = scanner.nextLine();
-        System.out.println("Please enter a id");
-        String id = scanner.nextLine();
+    private static void insertQuestion(Scanner scanner){
+        System.out.println("******Insert Question******");
+        System.out.println("Do you want to insert a MCQQuestion? : y/n");
+        char mcq = scanner.nextLine().charAt(0);
 
-        Student student = new Student(name, id);
+        if(mcq=='y'){
+            Question question =  insertGeneralInfo(scanner);
+            List<String> mcqInfo = insertMCQInfo(scanner);
 
-        System.out.println("Sign in");
-        return student;
+            // insert MCQQuestion query
+            MCQQuestionJDBCDAO mcqDao = new MCQQuestionJDBCDAO();
+            int mcqId = mcqDao.create(mcqInfo);
+
+            // insert Question query
+            QuestionJDBCDAO dao = new QuestionJDBCDAO();
+            dao.create(question,mcqId);
+        }
+        else{
+            Question question = insertGeneralInfo(scanner);
+
+            // insert Question query
+            QuestionJDBCDAO dao = new QuestionJDBCDAO();
+            dao.create(question, 0);
+        }
     }
 
+    private static Question insertGeneralInfo(Scanner scanner) {
+        System.out.println("Question contents: (Enter 'end' at the last line When you want stop typing for question.)");
+        String s = scanner.nextLine();
+        String question="";
+        while(!(s.equals("end")))
+        {
+            question = question.concat(s).concat("\n");
+            s = scanner.nextLine();
+        }
+        //System.out.println(question);
+
+        System.out.println("Topic : (Enter 'end' at the last line When you want stop typing for topics.)");
+        List<String> topics = new ArrayList<String>();
+
+        do{
+            s = scanner.nextLine();
+            topics.add("s");
+        }while(!(s.equals("end")));
+
+        System.out.println("Difficulty : ");
+        int difficulty = scanner.nextInt();
+        scanner.nextLine();
+
+        Question q = new Question(question, topics, difficulty);
+        return q;
+    }
+    private static List<String> insertMCQInfo(Scanner scanner){
+        List<String> s = new ArrayList<String>();
+
+        System.out.println("choice1 : ");
+        s.add(scanner.nextLine());
+
+        System.out.println("choice2 : ");
+        s.add(scanner.nextLine());
+
+        System.out.println("choice3 : ");
+        s.add(scanner.nextLine());
+
+        System.out.println("choice4 : ");
+        s.add(scanner.nextLine());
+
+        System.out.println("Answer : ");
+        s.add(scanner.nextLine());
+
+        return s;
+    }
 }

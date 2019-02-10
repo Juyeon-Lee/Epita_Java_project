@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Launcher" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="quiz.launcher.Launcher" />
+    <module name="quiz-manager2" />
+    <option name="VM_PARAMETERS" value="-Dconf.location=app.properties" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="quiz.launcher.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
