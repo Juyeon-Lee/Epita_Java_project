@@ -1,5 +1,5 @@
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('Equal', 'Not Equal', 'The code will not compile', 
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(1,'Equal', 'Not Equal', 'The code will not compile',
 'The code will compile but will throw run time error', 'Not Equal');
 	
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES 
@@ -21,8 +21,8 @@ public class Test{
 
 ', 1,'Java Language Basics',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('10 25','35','67','The code will not compile', '10 25');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(2,'10 25','35','67','The code will not compile', '10 25');
 	
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES 
 ('What will happen when you compile and run the following code?
@@ -37,8 +37,8 @@ public class Test{
 
 ', 2,'Java Language Basics',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('13','23','22','12', '23');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(3,'13','23','22','12', '23');
 	
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES 
 ('What will happen when you compile and run the following code?
@@ -56,8 +56,8 @@ public class Test {
 
 ', 3,'Java Language Basics',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('Compilation error','Runtime error','8','10','8');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(4,'Compilation error','Runtime error','8','10','8');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES 
 ('What will happen when you compile and run the following code?
@@ -71,8 +71,8 @@ public class Test {
 
 ', 4,'Java Language Basics',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('1','3','2','4','2');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(5,'1','3','2','4','2');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -87,8 +87,8 @@ public class Test{
 
 ', 5,'Java Operators',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('3','2','4','1','2');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(6,'3','2','4','1','2');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -103,8 +103,8 @@ public class Test{
 
 ', 6,'Java Operators',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('10','0','Compilation error','None of the above','0');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(7,'10','0','Compilation error','None of the above','0');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -119,8 +119,8 @@ public class Test{
 
 ', 7,'Java Operators',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('1','2','Compilation error','Runtime error','Runtime error');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(8,'1','2','Compilation error','Runtime error','Runtime error');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -138,8 +138,8 @@ public class Test{
 
 ', 0,'Java Operators',1);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('1','2','Compilation error','Runtime error','1');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(9,'1','2','Compilation error','Runtime error','1');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -189,8 +189,8 @@ public class Test{
 
 ', 9,'Java Object Oriented Programming',3);
 
-INSERT INTO MCQQUESTION (CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES 
-('Parent','Child','Compilation error','Runtime error','Parent');
+INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
+(10,'Parent','Child','Compilation error','Runtime error','Parent');
 
 INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
@@ -229,3 +229,7 @@ public abstract class Test extends One{
 }
 
 ', 0,'Java Object Oriented Programming',2);
+
+ALTER TABLE MCQQUESTION
+  ALTER COLUMN MCQID
+  INT AUTO_INCREMENT
