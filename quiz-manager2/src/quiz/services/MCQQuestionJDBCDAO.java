@@ -70,6 +70,7 @@ public class MCQQuestionJDBCDAO {
 		return 0;// 0 : error
 	}
 
+	/*
     public void update(MCQQuestion MCQ) {
 
         try (Connection connection = getConnection();
@@ -83,7 +84,7 @@ public class MCQQuestionJDBCDAO {
         }
 
     }
-
+*/
 	private Connection getConnection() throws SQLException {
 		Configuration conf = Configuration.getInstance();
 		String jdbcUrl = conf.getConfigurationValue("jdbc.url");
