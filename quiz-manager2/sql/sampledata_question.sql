@@ -122,7 +122,7 @@ public class Test{
 INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
 (8,'1','2','Compilation error','Runtime error','Runtime error');
 
-INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
+INSERT INTO QUESTION (QUESTION,TOPIC,DIFFICULTY) VALUES
 ('What will happen when you compile and run the following code?
 public class Test{
 	
@@ -136,7 +136,7 @@ public class Test{
 	}
 }
 
-', 0,'Java Operators',1);
+', 'Java Operators',1);
 
 INSERT INTO MCQQUESTION (MCQID,CHOICE1,CHOICE2,CHOICE3,CHOICE4,ANSWER) VALUES
 (9,'1','2','Compilation error','Runtime error','1');
@@ -216,7 +216,7 @@ public class Test{
 
 ', 10,'Java Object Oriented Programming',3);
 
-INSERT INTO QUESTION (QUESTION,MCQ,TOPIC,DIFFICULTY) VALUES
+INSERT INTO QUESTION (QUESTION,TOPIC,DIFFICULTY) VALUES
 ('Will this code compile successfully?
 class One{
 	public void process(){
@@ -228,7 +228,7 @@ public abstract class Test extends One{
 	public abstract void process();
 }
 
-', 0,'Java Object Oriented Programming',2);
+','Java Object Oriented Programming',2);
 
 ALTER TABLE MCQQUESTION
   ALTER COLUMN MCQID
