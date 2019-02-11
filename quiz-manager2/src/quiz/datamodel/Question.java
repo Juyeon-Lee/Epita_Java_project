@@ -1,42 +1,54 @@
 package quiz.datamodel;
 
 import java.util.List;
+import java.util.Random;
 
 public class Question {
 
 	private int id;
-	
-	private String question; 
-	private List<String> topics;	 
+	private String question;
+	private List<String> topics;
 	private Integer difficulty;
-	
+	Random random = new Random();
+
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", question=" + question + ", topics=" + topics + ", difficulty=" + difficulty
-				+ "]";
+
+		/*return "Question [id=" + id + ", question=" + question + ", topics=" + topics + ", difficulty=" + difficulty
+				+ "]";*/
+		return "Question :"+question + "]";
 	}
-	
+
 	public String toStringofTopics() {
 		return String.join(",", topics); //topicsCommaSeparated..
 	}
 
-	public Question() {
+	public Question(int i) {
+		this.id = i;
 	}
-	
+
 	public Question(String question, List<String> topics, Integer difficulty) {
 		this.question = question;
 		this.topics = topics;
 		this.difficulty = difficulty;
 	}
-	
-	//209-02-09 m update > new 
+
+	//209-02-09 m update > new
 	public Question(int id, int difficulty, String question) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		this.difficulty = difficulty;
 		this.question = question;
-		
+
 	}
+
+	public Question(String question) {
+		// TODO Auto-generated constructor stub
+		this.question = question;
+	}
+
+
+
 
 	public String getQuestion() {
 		return question;
@@ -56,7 +68,7 @@ public class Question {
 	public void setDifficulty(Integer difficulty) {
 		this.difficulty = difficulty;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

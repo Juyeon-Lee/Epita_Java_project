@@ -18,24 +18,24 @@ DELETE FROM QUESTION WHERE ID = 3;
 
 select * from question;
 */
-	
-   private static final String INSERT_STATEMENT = "INSERT INTO QUESTION (QUESTION, MCQ, TOPIC, DIFFICULTY) VALUES (?, ?, ?, ?)";
-   private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION";
-   private static final String UPDATE_STATEMENT = "UPDATE QUESTION SET QUESTION=?, MCQ=?, TOPIC=?, DIFFICULTY=? WHERE ID=?";
-   private static final String DELETE_STATEMENT = "DELETE FROM QUESTION WHERE ID = ?";
-	
-	
-	
+
+	private static final String INSERT_STATEMENT = "INSERT INTO QUESTION (QUESTION, MCQ, TOPIC, DIFFICULTY) VALUES (?, ?, ?, ?)";
+	private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION";
+	private static final String UPDATE_STATEMENT = "UPDATE QUESTION SET QUESTION=?, MCQ=?, TOPIC=?, DIFFICULTY=? WHERE ID=?";
+	private static final String DELETE_STATEMENT = "DELETE FROM QUESTION WHERE ID = ?";
+
+
+	List<Integer> list = new ArrayList<Integer>();
 	public void create(Question question, int mcq) {
-		
+
 		try (Connection connection = getConnection();
-				PreparedStatement insertStatement = connection.prepareStatement(INSERT_STATEMENT);) {
-			
+			 PreparedStatement insertStatement = connection.prepareStatement(INSERT_STATEMENT);) {
+
 			insertStatement.setString(1, question.getQuestion());
 			insertStatement.setInt(2, mcq);
 			insertStatement.setString(3, question.toStringofTopics());
 			insertStatement.setInt(4, question.getDifficulty());
-			
+
 			insertStatement.execute();
 
 		} catch (SQLException e) {
@@ -45,11 +45,11 @@ select * from question;
 	}
 
 	public void update(Question question) {
-		
 
-		
+
+
 		try (Connection connection = getConnection();
-			PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
+			 PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
 			updateStatement.setString(1, question.getQuestion());
 			updateStatement.setInt(2, question.getDifficulty());
 			updateStatement.setInt(3, question.getId());
@@ -57,7 +57,7 @@ select * from question;
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private Connection getConnection() throws SQLException {
@@ -70,9 +70,9 @@ select * from question;
 	}
 
 	public void delete(Question question) {
-		
+
 		try (Connection connection = getConnection();
-			PreparedStatement deleteStatement = connection.prepareStatement(DELETE_STATEMENT)){
+			 PreparedStatement deleteStatement = connection.prepareStatement(DELETE_STATEMENT)){
 			deleteStatement.setInt(1, question.getId());
 			deleteStatement.executeQuery();
 		}catch (SQLException e) {
@@ -80,23 +80,79 @@ select * from question;
 		}
 	}
 
-	//2019-02-09 3:06 m update -> select query 
+	public void showAllID() {
+		List<Question> resultList = new ArrayList<Question>();
+		String selectQuery = "select ID from QUESTION";
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		) {
+			ResultSet results = preparedStatement.executeQuery();
+			while (results.next()) {
+				int id = results.getInt("ID");
+
+				/*String question_1 = results.getString("QUESTION");
+				int mcq = results.getInt("MCQ");
+				String topic = results.getString("TOPIC");
+				int difficulty = results.getInt("DIFFICULTY");*/
+				Question currentQuestion = new Question(id);
+
+				resultList.add(currentQuestion);
+			}
+			results.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for(int i=0;i<resultList.size();i++) {
+			System.out.println(resultList.get(i).getId());
+			list.add(resultList.get(i).getId());
+			//System.out.print(list.get(i)+" ");
+		}
+
+	}
+	//2019-02-10 moeun update
+	public List<Question> searchWhereID(Question question) {
+		List<Question> resultList = new ArrayList<Question>();
+		String selectQuery = "select * from QUESTION WHERE ID = ?";
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		) {
+
+			preparedStatement.setInt(1,question.getId());
+			//System.out.println(question.getId());
+			ResultSet results = preparedStatement.executeQuery();
+			while (results.next()) {
+				int id = results.getInt("ID");
+				String question_1 = results.getString("QUESTION");
+				int mcq = results.getInt("MCQ");
+				String topic = results.getString("TOPIC");
+				int difficulty = results.getInt("DIFFICULTY");
+				Question currentQuestion = new Question(question_1);
+				resultList.add(currentQuestion);
+			}
+			results.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+
+	//2019-02-09 3:06 m update -> select query
 	public List<Question> search(Question question) {
 		List<Question> resultList = new ArrayList<Question>();
-		
-		/*SELECT 
-	    ID,DIFFICULTY,QUESTION 
-	    FROM QUESTION 
-	    WHERE
-	       DIFFICULTY = 1
-	    and 
-	      QUESTION LIKE '%JV%'
-	      
-	      */
+
+			/*SELECT
+		    ID,DIFFICULTY,QUESTION
+		    FROM QUESTION
+		    WHERE
+		       DIFFICULTY = 1
+		    and
+		      QUESTION LIKE '%JV%'
+
+		      */
 		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
 		try (Connection connection = getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-				) {
+			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		) {
 
 			//preparedStatement.setInt(1,question.getId());
 			preparedStatement.setInt(1,question.getDifficulty());
@@ -115,5 +171,4 @@ select * from question;
 		}
 		return resultList;
 	}
-
 }

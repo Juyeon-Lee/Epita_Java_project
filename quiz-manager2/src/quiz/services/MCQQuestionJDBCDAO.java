@@ -29,7 +29,7 @@ public class MCQQuestionJDBCDAO {
 	private static final Logger LOG = Logger.getGlobal();
 
 	public int create(List<String> mcqInfo) {
-
+		
 		try (Connection connection = getConnection();
 			 PreparedStatement insertStatement = connection.prepareStatement(INSERT_STATEMENT);) {
 
@@ -70,19 +70,19 @@ public class MCQQuestionJDBCDAO {
 		return 0;// 0 : error
 	}
 
-	public void update(MCQQuestion MCQ) {
+    public void update(MCQQuestion MCQ) {
 
-		try (Connection connection = getConnection();
-			 PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)) {
-			updateStatement.setString(1, MCQ.getQuestion());
-			updateStatement.setInt(2, MCQ.getDifficulty());
-			updateStatement.setInt(3, MCQ.getId());
-			updateStatement.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        try (Connection connection = getConnection();
+             PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
+            updateStatement.setString(1, MCQ.getQuestion());
+            updateStatement.setInt(2, MCQ.getDifficulty());
+            updateStatement.setInt(3, MCQ.getId());
+            updateStatement.executeQuery();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
 	private Connection getConnection() throws SQLException {
 		Configuration conf = Configuration.getInstance();
@@ -93,33 +93,45 @@ public class MCQQuestionJDBCDAO {
 		return connection;
 	}
 
-	public void delete(Question question) {
+    public void delete(Question question) {
 
-		try (Connection connection = getConnection();
-			 PreparedStatement deleteStatement = connection.prepareStatement(DELETE_STATEMENT)) {
-			deleteStatement.setInt(1, question.getId());
-			deleteStatement.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        try (Connection connection = getConnection();
+             PreparedStatement deleteStatement = connection.prepareStatement(DELETE_STATEMENT)){
+            deleteStatement.setInt(1, question.getId());
+            deleteStatement.executeQuery();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+	public boolean correctAnswer(int mcqid,String answer )
+	{
+		List<MCQQuestion> resultList = new ArrayList<MCQQuestion>();
+		resultList = showChoice(mcqid);
+		MCQQuestion rAnswer = resultList.get(0);
+
+		return rAnswer.getAnswer().equals(answer);
+
 	}
 
-	public List<Question> search(Question question) {
-		List<Question> resultList = new ArrayList<Question>();
+	public List<MCQQuestion> showChoice(int mcqid) {
+		List<MCQQuestion> resultList = new ArrayList<MCQQuestion>();
 
-		/*
-		 * SELECT ID,DIFFICULTY,QUESTION FROM QUESTION WHERE DIFFICULTY = 1 and QUESTION
-		 * LIKE '%JV%'
-		 *
-		 */
-		String selectQuery = "select  from QUESTION WHERE ";
+		String selectQuery = "select * from MCQQUESTION WHERE MCQID = ?";
 		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
+				PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+				) {
 
+			preparedStatement.setInt(1, mcqid);
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
-
-				Question currentQuestion = new Question();
+				int MCQID = results.getInt("MCQID");
+				String choice1 = results.getString("CHOICE1");
+				String choice2 = results.getString("CHOICE2");
+				String choice3 = results.getString("CHOICE3");
+				String choice4 = results.getString("CHOICE4");
+				String answer = results.getString("Answer");
+				MCQQuestion currentQuestion = new MCQQuestion(MCQID, choice1, choice2, choice3, choice4, answer);
 				resultList.add(currentQuestion);
 			}
 			results.close();
