@@ -1,6 +1,5 @@
 package quiz.launcher;
 
-import quiz.datamodel.Answer;
 import quiz.datamodel.MCQQuestion;
 import quiz.datamodel.Question;
 import quiz.datamodel.Student;
@@ -8,13 +7,11 @@ import quiz.services.MCQQuestionJDBCDAO;
 import quiz.services.QuestionJDBCDAO;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 /**@author moeun & juyeon**/
 
@@ -117,9 +114,42 @@ public class Launcher {
 
     }
 
-    private static void deleteQuestion(Scanner scanner) {
+    private static void deleteQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcqDao) {
         System.out.println("******Delete Question******");
-        //show all questions include Ids of questions
+       
+        while(true) {
+        	System.out.println("Do you need to read all questions? : y/n");
+            if (scanner.nextLine().charAt(0) == 'y') {
+                dao.printAll();
+            }
+
+            System.out.println("-----------------------");
+            System.out.println("Now you can delete");
+            System.out.println("You should follow this form and enter things. >");
+            System.out.println("[Case 1] DELETE FROM QUESTION WHERE ID=__(1)__");
+            System.out.println("[Case 2] DELETE FROM MCQQUESTION WHERE MCQID=__(1)__");
+
+            System.out.print("Which table do you want to delete? 1 -> QUESTION / 2 -> MCQQUESTION ");
+            String data = new String();
+            char choiceTableForDelete = scanner.nextLine().charAt(0);
+            if(choiceTableForDelete == '1'){
+                System.out.print("ID : ");
+                data = scanner.nextLine();
+                dao.delete(Integer.parseInt(data));
+            }else if(choiceTableForDelete == '2'){
+            	System.out.print("MCQID : ");
+                data = scanner.nextLine();
+                mcqDao.delete(Integer.parseInt(data));
+            }else {
+                System.out.println("You typed wrong number.");
+                continue;
+            }
+
+            System.out.print("Do you want to Update again? : y/n ");
+            char again = scanner.nextLine().charAt(0);
+            if(again == 'n')
+                break;
+        }
         System.out.println("Do you want to insert a MCQQuestion? : y/n");
 
 
@@ -212,7 +242,7 @@ public class Launcher {
         MCQQuestionJDBCDAO mcqDao = new MCQQuestionJDBCDAO();
         List<Question> fileQuestion = new ArrayList<Question>();
         Student student = new Student();
-        int r = (int) Math.random();
+        //int r = (int) Math.random();
 
         System.out.println("Quiz Manager");
         System.out.println("-----------------------");
@@ -232,7 +262,7 @@ public class Launcher {
                     updateQuestion(scanner, dao, mcqDao);
                     break;
                 case '3': //delete
-                    deleteQuestion(scanner);
+                    deleteQuestion(scanner, dao, mcqDao);
                     break;
                 case '4': //show all questions
                     showAll(dao);

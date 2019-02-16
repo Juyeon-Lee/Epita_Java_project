@@ -1,7 +1,5 @@
 package quiz.datamodel;
 
-import java.util.List;
-
 public class MCQQuestion{
 
 	/*public MCQQuestion(String question, List<String> topics, Integer difficulty) {

@@ -28,6 +28,15 @@ select * from question;
     private static final Logger LOG = Logger.getGlobal();
 	List<Integer> list = new ArrayList<Integer>(); // list for Id
 
+	private Connection getConnection() throws SQLException {
+		Configuration conf = Configuration.getInstance();
+		String jdbcUrl = conf.getConfigurationValue("jdbc.url");
+		String user = conf.getConfigurationValue("jdbc.user");
+		String password = conf.getConfigurationValue("jdbc.password");
+		Connection connection = DriverManager.getConnection(jdbcUrl, user, password);
+		return connection;
+	}
+	
 	public void create(Question question, int mcq) {
 
 		try (Connection connection = getConnection();
@@ -48,7 +57,6 @@ select * from question;
 
 	//2019-02-15 Juyeon wrote
 	public void update(ArrayList<String> list) {
-
 		try (Connection connection = getConnection();
 			 PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
 			updateStatement.setString(1, list.get(0)); //question
@@ -64,21 +72,12 @@ select * from question;
 
 	}
 
-	private Connection getConnection() throws SQLException {
-		Configuration conf = Configuration.getInstance();
-		String jdbcUrl = conf.getConfigurationValue("jdbc.url");
-		String user = conf.getConfigurationValue("jdbc.user");
-		String password = conf.getConfigurationValue("jdbc.password");
-		Connection connection = DriverManager.getConnection(jdbcUrl, user, password);
-		return connection;
-	}
-
-	public void delete(Question question) {
-
+	public void delete(int id) {
 		try (Connection connection = getConnection();
 			 PreparedStatement deleteStatement = connection.prepareStatement(DELETE_STATEMENT)){
-			deleteStatement.setInt(1, question.getId());
-			deleteStatement.executeQuery();
+			deleteStatement.setInt(1, id);
+			deleteStatement.execute();
+			LOG.info("A question is deleted.");
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -143,11 +142,6 @@ select * from question;
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
 				int id = results.getInt("ID");
-
-				/*String question_1 = results.getString("QUESTION");
-				int mcq = results.getInt("MCQ");
-				String topic = results.getString("TOPIC");
-				int difficulty = results.getInt("DIFFICULTY");*/
 				Question currentQuestion = new Question(id);
 
 				resultList.add(currentQuestion);
