@@ -56,7 +56,7 @@ select * from question;
 			updateStatement.setString(3, list.get(2)); //topics
 			updateStatement.setInt(4, Integer.parseInt(list.get(3))); //difficulty
             updateStatement.setInt(5, Integer.parseInt(list.get(4)));
-			updateStatement.executeQuery();
+			updateStatement.execute();
 			LOG.info("A question is updated.");
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -93,10 +93,15 @@ select * from question;
             MCQQuestionJDBCDAO mcq = new MCQQuestionJDBCDAO();
             ResultSet results = preparedStatement.executeQuery();
             while (results.next()) {
-                System.out.println("ID : "+ results.getInt("ID") + "Question : " + results.getString("QUESTION")
-                        + "linked MCQ id : " + results.getInt("MCQ") + "Topic : " + results.getString("TOPIC")
-                        + "Difficulty"+ results.getInt("DIFFICULTY"));
-                mcq.print(results.getInt("ID"));
+                System.out.print("ID : "+ results.getInt("ID") + " / Question : " + results.getString("QUESTION") 
+                +" / Topic : " + results.getString("TOPIC") + " / Difficulty : "+ results.getInt("DIFFICULTY"));
+                if(results.getInt("MCQ")==0) {
+                	System.out.println(" / This question is not a MCQ question.");
+                }else {
+                	System.out.println(" / linked MCQ id : " + results.getInt("MCQ"));
+                	mcq.print(results.getInt("MCQ"));
+                }
+                
             }
             results.close();
         } catch (Exception e) {

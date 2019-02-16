@@ -18,17 +18,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 /**@author moeun & juyeon**/
 
-/*//
+/*
  *Code Explanation
  *There are Two part
-	�� admin questions//be able to operate CRUD on Open Questions and MCQ Questions (questions and valid answers are stored in a database or an XML file or a JSON file)
+ 	##admin questions//be able to operate CRUD on Open Questions and MCQ Questions (questions and valid answers are stored in a database or an XML file or a JSON file)
 -insert(create)
 -update
 -delete
 -show all(read)
 -show (search by topics)
 
-	�� Solve a quiz
+	##Solve a quiz
 user guide(solve a quiz)
 Users are divided into admin and student.
 admin is a quiz manager who can use quiz CRUD.
@@ -36,7 +36,7 @@ Student can quiz by all , topics, and difficulty levels.
 The first database contains 12 quizzes and correct answers of three types(mcq, open , associative)
 Students can choose one's type of quiz
 after all the quizzes are over, the student answers whether they can extract the problem that they solve.
-Finally, the student scoes are printed and the quiz ends.
+Finally, the student scores are printed and the quiz ends.
 // every quiz includes 3 question types(mcq, open, associative)	
 -insert student info
 	//be able to assemble automatically a quiz (a quiz is a set of questions) that gathers all the questions covering a given list of topics.
@@ -52,241 +52,6 @@ public class Launcher {
     private static Scanner scanner;
 
     static int grade = 0;
-
-    public static void main(String[] args) throws SQLException {
-        scanner = new Scanner(System.in);
-        String answer;
-        FileWriter writer = null;
-        QuestionJDBCDAO dao = new QuestionJDBCDAO();
-        MCQQuestionJDBCDAO mcqDao = new MCQQuestionJDBCDAO();
-        List<Question> fileQuestion = new ArrayList<Question>();
-        Student student = new Student();
-        int r = (int) Math.random();
-
-        System.out.println("Quiz Manager");
-        System.out.println("-----------------------");
-        System.out.println("Please enter your type");
-        System.out.println("1. admin");
-        System.out.println("2. student(solve a quiz)");
-        answer = scanner.nextLine();
-
-        if (answer.equals("1")) {// admin
-            adminStartPage();
-
-            switch(scanner.nextLine().charAt(0)){
-                case '1': //insert
-                    insertQuestion(scanner);
-                    break;
-                case '2': //update
-                    updateQuestion(scanner, dao, mcqDao);
-                    break;
-                case '3': //delete
-                    deleteQuestion(scanner);
-                    break;
-                case '4': //show all questions
-                    showAll(dao);
-                    break;
-                case '5': //search by topics
-                    searchByTopics(scanner);
-                    break;
-                default :
-                    System.out.println("You typed wrong number. Please try again.");
-                    //error process
-                    return;
-            }
-
-        } else if (answer.equals("2")) {// student
-            studentLogin(scanner, student);// student info
-            System.out.println("Please select a menu");
-            System.out.println("1. solve a quiz(All)");
-            System.out.println("2. solve a quiz(by topic)");
-            System.out.println("3. solve a quiz(by difficulty)");
-            answer = scanner.nextLine();
-            if (answer.equals("1")) {// solve a quiz(ALL)
-                System.out.println("Quiz Start");
-                System.out.println("-----------------------");
-
-                List<Question> q = dao.showAll(" ");
-                for (int j = 0; j < q.size(); j++) {
-                    System.out.println("Question " + (j + 1));
-                    System.out.println(q.get(j).getQuestion());
-                    int a = q.get(j).getMcq();
-
-                    fileQuestion.add(q.get(j));
-                    if (a != 0) {
-
-                        List<MCQQuestion> m = mcqDao.showWhereMcqid(a);
-                        System.out.print("CHOICE 1 : ");
-                        System.out.println(m.get(0).getCHOICE1());
-                        System.out.print("CHOICE 2 : ");
-                        System.out.println(m.get(0).getCHOICE2());
-                        System.out.print("CHOICE 3 : ");
-                        System.out.println(m.get(0).getCHOICE3());
-                        System.out.print("CHOICE 4 : ");
-                        System.out.println(m.get(0).getCHOICE4());
-
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-
-                        answer = scanner.nextLine();
-                        if (m.get(0).getAnswer().equals(answer))
-                            grade++;
-                    } else {
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-                        answer = scanner.nextLine();
-                        grade++;
-
-                    }
-                }
-            } else if (answer.equals("2")) {
-                String condition = null;
-                System.out.println("select the topic");
-                System.out.println("1. Java Language Basics");
-                System.out.println("2. Java Operators");
-                System.out.println("3. Java Object Oriented Programming");
-                int key = scanner.nextInt();
-                switch (key) {
-                    case 1:
-                        condition = "where topic = 'Java Language Basics'";
-                        break;
-                    case 2:
-                        condition = "where topic = 'Java Operators'";
-                        break;
-                    case 3:
-                        condition = "where topic = 'Java Object Oricented Programming'";
-                        break;
-                    default:
-                        break;
-                }
-
-                System.out.println("Quiz Start");
-                System.out.println("-----------------------");
-                List<Question> q = dao.showAll(condition);
-
-                for (int j = 0; j < q.size(); j++) {
-                    System.out.println("Question " + (j + 1));
-                    System.out.println(q.get(j).getQuestion());
-                    int a = q.get(j).getMcq();
-
-                    fileQuestion.add(q.get(j));
-                    if (a != 0) {
-
-                        List<MCQQuestion> m = mcqDao.showWhereMcqid(a);
-                        System.out.print("CHOICE 1 : ");
-                        System.out.println(m.get(0).getCHOICE1());
-                        System.out.print("CHOICE 2 : ");
-                        System.out.println(m.get(0).getCHOICE2());
-                        System.out.print("CHOICE 3 : ");
-                        System.out.println(m.get(0).getCHOICE3());
-                        System.out.print("CHOICE 4 : ");
-                        System.out.println(m.get(0).getCHOICE4());
-
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-                        if (j == 0)
-                            answer = scanner.nextLine();
-                        answer = scanner.nextLine();
-                        if (m.get(0).getAnswer().equals(answer))
-                            grade++;
-                    } else {
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-                        answer = scanner.nextLine();
-                        grade++;
-                    }
-                }
-            }else if(answer.equals("3")) {
-                String condition = null;
-                System.out.println("select the difficulty(1 to 3)");
-                int key = scanner.nextInt();
-                switch (key) {
-                    case 1:
-                        condition = "where difficulty = 1";
-                        break;
-                    case 2:
-                        condition = "where difficulty = 2";
-                        break;
-                    case 3:
-                        condition = "where difficulty = 3";
-                        break;
-                    default:
-                        break;
-                }
-
-                System.out.println("Quiz Start");
-                System.out.println("-----------------------");
-                List<Question> q = dao.showAll(condition);
-
-                for (int j = 0; j < q.size(); j++) {
-                    System.out.println("Question " + (j + 1));
-                    System.out.println(q.get(j).getQuestion());
-                    int a = q.get(j).getMcq();
-
-                    fileQuestion.add(q.get(j));
-                    if (a != 0) {
-
-                        List<MCQQuestion> m = mcqDao.showWhereMcqid(a);
-                        System.out.print("CHOICE 1 : ");
-                        System.out.println(m.get(0).getCHOICE1());
-                        System.out.print("CHOICE 2 : ");
-                        System.out.println(m.get(0).getCHOICE2());
-                        System.out.print("CHOICE 3 : ");
-                        System.out.println(m.get(0).getCHOICE3());
-                        System.out.print("CHOICE 4 : ");
-                        System.out.println(m.get(0).getCHOICE4());
-
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-                        if (j == 0)
-                            answer = scanner.nextLine();
-                        answer = scanner.nextLine();
-                        if (m.get(0).getAnswer().equals(answer))
-                            grade++;
-                    } else {
-                        System.out.println("-----------------------");
-                        System.out.println("Please enter your answer");
-                        answer = scanner.nextLine();
-                        grade++;
-                    }
-                }
-
-            }else {
-                System.out.println("You did not enter a valid answer!");
-            }
-
-            System.out.println("Do you want to extract the quiz to a file?? (Y/N)");
-            answer = scanner.nextLine();
-            if (answer.equals("Y")) {
-                File file = new File("test1.txt");
-                for (int k = 0; k < fileQuestion.size() - 1; k++) {
-                    try {
-                        writer = new FileWriter(file, true);
-                        writer.write(fileQuestion.get(k).getQuestion());
-                        writer.flush();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-            System.out.println("[ Student Name : " + student.getName() + "\n" + "Student ID : " + student.getId()
-                    + "\n" + "Student Score : " + grade);
-
-        }
-        scanner.close();
-    }
-
-    private static void studentLogin(Scanner scanner, Student student) {
-        System.out.println("Student Login");
-        System.out.println("-----------------------");
-        System.out.println("Please enter your name");
-        String name = scanner.nextLine();
-        student.setName(name);
-        System.out.println("Please enter your id");
-        String id = scanner.nextLine();
-        student.setName(id);
-    }
 
     private static void searchByTopics(Scanner scanner) {
 
@@ -324,15 +89,16 @@ public class Launcher {
             System.out.println("[Case 1] UPDATE QUESTION SET QUESTION=__(1)__, MCQ=__(2)__, TOPIC=__(3)__, DIFFICULTY=__(4)__ WHERE ID=__(5)__");
             System.out.println("[Case 2] UPDATE MCQQUESTION SET CHOICE1=__(1)__, CHOICE2=__(2)__, CHOICE3=__(3)__, CHOICE4=__(4)__, ANSWER =__(5)__ WHERE MCQID=__(6)__");
 
-            System.out.print("Which table do you want to update? 1 -> QUESTION / 2 -> MCQQUESTION");
+            System.out.print("Which table do you want to update? 1 -> QUESTION / 2 -> MCQQUESTION ");
             ArrayList<String> list = new ArrayList<String>();
-            if(scanner.nextLine().charAt(0) == 1){
+            char choiceTableForUpdate = scanner.nextLine().charAt(0);
+            if(choiceTableForUpdate == '1'){
                 for (int i = 0; i < 5; i++) {
                     System.out.print(i+1 + " : ");
                     list.add(scanner.nextLine());
                 }
                 dao.update(list);
-            }else if(scanner.nextLine().charAt(0) == 2){
+            }else if(choiceTableForUpdate == '2'){
                 for (int i = 0; i < 6; i++) {
                     System.out.print(i+1 + " : ");
                     list.add(scanner.nextLine());
@@ -343,7 +109,7 @@ public class Launcher {
                 continue;
             }
 
-            System.out.print("Do you want to Update again? : y/n");
+            System.out.print("Do you want to Update again? : y/n ");
             char again = scanner.nextLine().charAt(0);
             if(again == 'n')
                 break;
@@ -385,7 +151,7 @@ public class Launcher {
                 dao.create(question, 0);
             }
 
-            System.out.print("Do you want to Insert again? : y/n");
+            System.out.println("Do you want to Insert again? : y/n");
             char again = scanner.nextLine().charAt(0);
             if(again == 'n')
                 break;
@@ -438,4 +204,206 @@ public class Launcher {
 
         return s;
     }
+    
+    public static void main(String[] args) throws SQLException {
+        scanner = new Scanner(System.in);
+        String answer;
+        QuestionJDBCDAO dao = new QuestionJDBCDAO();
+        MCQQuestionJDBCDAO mcqDao = new MCQQuestionJDBCDAO();
+        List<Question> fileQuestion = new ArrayList<Question>();
+        Student student = new Student();
+        int r = (int) Math.random();
+
+        System.out.println("Quiz Manager");
+        System.out.println("-----------------------");
+        System.out.println("Please enter your type");
+        System.out.println("1. admin");
+        System.out.println("2. student(solve a quiz)");
+        answer = scanner.nextLine();
+
+        if (answer.equals("1")) {// admin
+            adminStartPage();
+
+            switch(scanner.nextLine().charAt(0)){
+                case '1': //insert
+                    insertQuestion(scanner);
+                    break;
+                case '2': //update
+                    updateQuestion(scanner, dao, mcqDao);
+                    break;
+                case '3': //delete
+                    deleteQuestion(scanner);
+                    break;
+                case '4': //show all questions
+                    showAll(dao);
+                    break;
+                case '5': //search by topics
+                    searchByTopics(scanner);
+                    break;
+                default :
+                    System.out.println("You typed wrong number. Please try again.");
+                    //error process
+                    return;
+            }
+
+        } else if (answer.equals("2")) {// student
+            studentLogin(scanner, student);// student info
+            System.out.println("Please select a menu");
+            System.out.println("1. solve a quiz(All)");
+            System.out.println("2. solve a quiz(by topic)");
+            System.out.println("3. solve a quiz(by difficulty)");
+            answer = scanner.nextLine();
+            String condition = " ";
+            if (answer.equals("1")) { // solve a quiz(ALL)
+                //02-16 Juyeon modify
+            	fileQuestion = solveQuiz(fileQuestion, condition);
+                
+            } else if (answer.equals("2")) { // solve a quiz(by topic)
+                condition = null;
+                System.out.println("select the topic");
+                System.out.println("1. Java Language Basics");
+                System.out.println("2. Java Operators");
+                System.out.println("3. Java Object Oriented Programming");
+                int key = scanner.nextInt();
+                switch (key) {
+                    case 1:
+                        condition = "where topic = 'Java Language Basics'";
+                        break;
+                    case 2:
+                        condition = "where topic = 'Java Operators'";
+                        break;
+                    case 3:
+                        condition = "where topic = 'Java Object Oricented Programming'";
+                        break;
+                    default:
+                        break;
+                }
+
+                answer = scanner.nextLine();
+                //02-16 Juyeon modify
+                fileQuestion = solveQuiz(fileQuestion, condition);
+                
+            }else if(answer.equals("3")) { // solve a quiz(by difficulty)
+                condition = null;
+                System.out.println("select the difficulty(1 to 3)");
+                int key = scanner.nextInt();
+                switch (key) {
+                    case 1:
+                        condition = "where difficulty = 1";
+                        break;
+                    case 2:
+                        condition = "where difficulty = 2";
+                        break;
+                    case 3:
+                        condition = "where difficulty = 3";
+                        break;
+                    default:
+                        break;
+                }
+
+                //02-16 Juyeon modify
+                fileQuestion = solveQuiz(fileQuestion, condition);
+
+            }else {
+                System.out.println("You did not enter a valid answer!");
+            }
+
+            //2019-02-16 Juyeon modify
+            extractQuizToFile(mcqDao, fileQuestion);
+            System.out.println("[ Student Name : " + student.getName() + "\n" + "Student ID : " + student.getId()
+                    + "\n" + "Student Score : " + grade);
+
+        }
+        scanner.close();
+    }
+
+	private static void extractQuizToFile(MCQQuestionJDBCDAO mcqDao, List<Question> fileQuestion) {
+		String answer;
+		FileWriter writer =null;
+		
+		System.out.println("Do you want to extract the quiz to a file?? (Y/N)");
+		answer = scanner.nextLine();
+		if (answer.equals("Y")) {
+		    File file = new File("test1.txt");
+		    for (int k = 0; k < fileQuestion.size() - 1; k++) {
+		        try {
+		            writer = new FileWriter(file, true);
+		            writer.write("# Q. "+fileQuestion.get(k).getQuestion());
+		            writer.write(System.getProperty( "line.separator" ));
+		            int mcqid = fileQuestion.get(k).getMcq();
+		            if(mcqid!=0) {
+		            	writer.write("Choice1 : "+ mcqDao.showWhereMcqid(mcqid).getCHOICE1());
+		            	writer.write(System.getProperty( "line.separator" ));
+		            	writer.write("Choice2 : "+ mcqDao.showWhereMcqid(mcqid).getCHOICE2());
+		            	writer.write(System.getProperty( "line.separator" ));
+		            	writer.write("Choice3 : "+ mcqDao.showWhereMcqid(mcqid).getCHOICE3());
+		            	writer.write(System.getProperty( "line.separator" ));
+		            	writer.write("Choice4 : "+ mcqDao.showWhereMcqid(mcqid).getCHOICE4());
+		            	writer.write(System.getProperty( "line.separator" ));
+		            	writer.write("Answer : "+ mcqDao.showWhereMcqid(mcqid).getAnswer());
+		            	writer.write(System.getProperty( "line.separator" ));
+		            	writer.write(System.getProperty( "line.separator" ));
+		            }
+		            writer.flush();
+		        } catch (IOException e) {
+		            // TODO Auto-generated catch block
+		            e.printStackTrace();
+		        }
+		    }
+		}
+	}
+
+	private static List<Question> solveQuiz(List<Question> fileQuestion, String condition) {
+		QuestionJDBCDAO dao = new QuestionJDBCDAO();
+		MCQQuestionJDBCDAO mcqDao = new MCQQuestionJDBCDAO();
+		System.out.println("Quiz Start");
+        System.out.println("-----------------------");
+        List<Question> q = dao.showAll(condition);
+		String answer;
+		for (int j = 0; j < q.size(); j++) {
+		    System.out.println("Question " + (j + 1));
+		    System.out.println(q.get(j).getQuestion());
+		    int a = q.get(j).getMcq();
+
+		    fileQuestion.add(q.get(j));
+		    if (a != 0) {
+
+		        MCQQuestion m = mcqDao.showWhereMcqid(a);
+		        System.out.print("CHOICE 1 : ");
+		        System.out.println(m.getCHOICE1());
+		        System.out.print("CHOICE 2 : ");
+		        System.out.println(m.getCHOICE2());
+		        System.out.print("CHOICE 3 : ");
+		        System.out.println(m.getCHOICE3());
+		        System.out.print("CHOICE 4 : ");
+		        System.out.println(m.getCHOICE4());
+
+		        System.out.println("-----------------------");
+		        System.out.println("Please enter your answer(You should enter not number, but the whole answer.)");
+		       
+		        answer = scanner.nextLine();
+		        if (m.getAnswer().equals(answer))
+		            grade++;
+		    } else {
+		        System.out.println("-----------------------");
+		        System.out.println("Please enter your answer");
+		        answer = scanner.nextLine();
+		        grade++;
+		    }
+		}
+		return fileQuestion;
+	}
+
+    private static void studentLogin(Scanner scanner, Student student) {
+        System.out.println("Student Login");
+        System.out.println("-----------------------");
+        System.out.println("Please enter your name");
+        String name = scanner.nextLine();
+        student.setName(name);
+        System.out.println("Please enter your id");
+        String id = scanner.nextLine();
+        student.setName(id);
+    }
+
+    
 }

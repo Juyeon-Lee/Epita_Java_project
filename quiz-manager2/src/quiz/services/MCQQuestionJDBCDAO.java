@@ -21,9 +21,9 @@ public class MCQQuestionJDBCDAO {
 	 */
 
 	private static final String INSERT_STATEMENT = "INSERT INTO MCQQUESTION (CHOICE1, CHOICE2, CHOICE3, CHOICE4, ANSWER) VALUES (?, ?, ?, ?, ?)";
-	private static final String SEARCH_STATEMENT_BY_ID = "SELECT * FROM MCQQUESTION WHERE MCQID = ?";
+	private static final String SEARCH_STATEMENT_BY_ID = "SELECT * FROM MCQQUESTION WHERE MCQID=?";
 	private static final String UPDATE_STATEMENT = "UPDATE MCQQUESTION SET CHOICE1=?, CHOICE2=?, CHOICE3=?, CHOICE4=?, ANSWER=? WHERE MCQID=?";
-	private static final String DELETE_STATEMENT = "DELETE FROM MCQQUESTION WHERE MCQID = ?";
+	private static final String DELETE_STATEMENT = "DELETE FROM MCQQUESTION WHERE MCQID=?";
 	private static final String SELECT_STATEMENT = "SELECT MCQID from MCQQUESTION WHERE CHOICE1=? AND CHOICE2=? AND CHOICE3=? AND CHOICE4=? AND ANSWER=?";
 
 	private static final Logger LOG = Logger.getGlobal();
@@ -73,7 +73,7 @@ public class MCQQuestionJDBCDAO {
             for (int i = 0; i < 6; i++) {
                 updateStatement.setString(i+1, list.get(i));
             }
-            updateStatement.executeQuery();
+            updateStatement.execute();
             LOG.info("A MCQquestion is updated.");
         }catch (SQLException e) {
             e.printStackTrace();
@@ -101,20 +101,18 @@ public class MCQQuestionJDBCDAO {
         }
     }
 
+    //Moeun wrote
+    //2019-02-16 Juyeon modify
 	public boolean correctAnswer(int mcqid,String answer )
 	{
-		List<MCQQuestion> resultList = new ArrayList<MCQQuestion>();
-		resultList = showWhereMcqid(mcqid);
-		MCQQuestion rAnswer = resultList.get(0);
+		MCQQuestion rAnswer = showWhereMcqid(mcqid);
 
 		return rAnswer.getAnswer().equals(answer);
-
 	}
 
-	//showChoice
-	public List<MCQQuestion> showWhereMcqid(int mcqid) {
-		List<MCQQuestion> resultList = new ArrayList<MCQQuestion>();
-
+	//2019-02-16 Juyeon modify 
+	public MCQQuestion showWhereMcqid(int mcqid) {
+		MCQQuestion currentQuestion = new MCQQuestion();
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_STATEMENT_BY_ID);)
 		{
@@ -127,29 +125,29 @@ public class MCQQuestionJDBCDAO {
 				String choice3 = results.getString("CHOICE3");
 				String choice4 = results.getString("CHOICE4");
 				String answer = results.getString("Answer");
-				MCQQuestion currentQuestion = new MCQQuestion(MCQID, choice1, choice2, choice3, choice4, answer);
-				resultList.add(currentQuestion);
-
+				currentQuestion = new MCQQuestion(MCQID, choice1, choice2, choice3, choice4, answer);
 			}
 			results.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return resultList;
+		return currentQuestion;
 	}
 
 	//2019-02-15 Juyeon wrote
 	public void print(int mcqid){
 	    try(Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_STATEMENT_BY_ID);
+            PreparedStatement printMCQStatement = connection.prepareStatement(SEARCH_STATEMENT_BY_ID);
         ){
-	        preparedStatement.setInt(1,mcqid);
-	        ResultSet results = preparedStatement.executeQuery();
-            for (int i = 1; i < 5; i++) {
-                System.out.println("choice"+i+ results.getString("choice"+i));
-            }
-            System.out.println("result : " + results.getString("Answer"));
-
+	    	printMCQStatement.setInt(1,mcqid);
+	        ResultSet result_mcq = printMCQStatement.executeQuery();
+	        while(result_mcq.next()) {// 이거 안 해서 안 나왔음.......
+	        	for (int i = 1; i < 5; i++) {
+	                System.out.println("choice"+i+" : "+ result_mcq.getString("choice"+i));
+	            }
+	            System.out.println("result : " + result_mcq.getString("Answer"));
+	        }
+	        
         } catch (Exception e){
 	        e.printStackTrace();
         }
