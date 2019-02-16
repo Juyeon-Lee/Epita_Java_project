@@ -82,7 +82,7 @@ public class Launcher {
 
             System.out.println("-----------------------");
             System.out.println("Now you can update");
-            System.out.println("You should follow this form and enter things. >");
+            System.out.println("*Tip : You should follow this form and enter things. >");
             System.out.println("[Case 1] UPDATE QUESTION SET QUESTION=__(1)__, MCQ=__(2)__, TOPIC=__(3)__, DIFFICULTY=__(4)__ WHERE ID=__(5)__");
             System.out.println("[Case 2] UPDATE MCQQUESTION SET CHOICE1=__(1)__, CHOICE2=__(2)__, CHOICE3=__(3)__, CHOICE4=__(4)__, ANSWER =__(5)__ WHERE MCQID=__(6)__");
 
@@ -125,7 +125,7 @@ public class Launcher {
 
             System.out.println("-----------------------");
             System.out.println("Now you can delete");
-            System.out.println("You should follow this form and enter things. >");
+            System.out.println("*Tip : You should follow this form and enter things. >");
             System.out.println("[Case 1] DELETE FROM QUESTION WHERE ID=__(1)__");
             System.out.println("[Case 2] DELETE FROM MCQQUESTION WHERE MCQID=__(1)__");
 
@@ -133,24 +133,31 @@ public class Launcher {
             String data = new String();
             char choiceTableForDelete = scanner.nextLine().charAt(0);
             if(choiceTableForDelete == '1'){
+            	System.out.println("*Tip : If it's a MCQquestion, the linked MCQ info also will be deleted.");
                 System.out.print("ID : ");
                 data = scanner.nextLine();
                 dao.delete(Integer.parseInt(data));
             }else if(choiceTableForDelete == '2'){
+            	System.out.println("*Tip : You can delete only unlinked data which any question don't have it.");
             	System.out.print("MCQID : ");
-                data = scanner.nextLine();
-                mcqDao.delete(Integer.parseInt(data));
+                int d = Integer.parseInt(scanner.nextLine());
+                int linked = dao.ifLinkedornotWithMCQ(d);
+                if(linked != 0){
+                	System.out.println("A ID " + linked +" question is linked with this data. You can't delete it.");
+                }
+                else {
+                	mcqDao.delete(d);
+                }
             }else {
                 System.out.println("You typed wrong number.");
                 continue;
             }
 
-            System.out.print("Do you want to Update again? : y/n ");
+            System.out.print("Do you want to delete again? : y/n ");
             char again = scanner.nextLine().charAt(0);
             if(again == 'n')
                 break;
         }
-        System.out.println("Do you want to insert a MCQQuestion? : y/n");
 
 
     }

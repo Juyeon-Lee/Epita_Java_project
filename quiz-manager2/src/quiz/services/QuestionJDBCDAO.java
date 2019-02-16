@@ -217,4 +217,22 @@ select * from question;
 		}
 		return resultList;
 	}
+	
+	public int ifLinkedornotWithMCQ(int mcqid) { //linked : return 1 / unlinked : return 0
+		String searchQuery = "SELECT ID FROM QUESTION WHERE MCQ=" + mcqid;
+		try (Connection connection = getConnection();
+				 PreparedStatement preparedStatement = connection.prepareStatement(searchQuery);
+			) {
+				ResultSet results = preparedStatement.executeQuery();
+				while (results.next()) {
+					int id = results.getInt("ID");
+					return id;
+				}
+				results.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return 0;
+	}
 }
