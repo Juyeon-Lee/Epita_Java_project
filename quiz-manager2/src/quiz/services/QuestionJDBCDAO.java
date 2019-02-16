@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,14 +38,25 @@ select * from question;
 		return connection;
 	}
 	
+	public String toStringofTopics(List<String> topics) {
+		return String.join(",", topics); //topicsCommaSeparated..
+	}
+	
+	public List<String> toListfromString(String topic){
+		return Arrays.asList(topic.split("\\s*,\\s*"));
+	}
+	
 	public void create(Question question, int mcq) {
 
 		try (Connection connection = getConnection();
 			 PreparedStatement insertStatement = connection.prepareStatement(INSERT_STATEMENT);) {
-
+			QuestionJDBCDAO dao = new QuestionJDBCDAO();
 			insertStatement.setString(1, question.getQuestion());
-			insertStatement.setInt(2, mcq);
-			insertStatement.setString(3, question.toStringofTopics());
+			if(mcq!=0)
+				insertStatement.setInt(2, mcq);
+			else
+				insertStatement.setString(2, null);
+			insertStatement.setString(3, dao.toStringofTopics(question.getTopics()));
 			insertStatement.setInt(4, question.getDifficulty());
 
 			insertStatement.execute();
@@ -111,10 +123,8 @@ select * from question;
 	public List<Question> showAll(String condition) {
 		List<Question> resultList = new ArrayList<Question>();
 
-		String selectQuery = "select * from Question ";
-		selectQuery+=condition;
 		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
+			 PreparedStatement preparedStatement = connection.prepareStatement( SEARCH_STATEMENT+condition );) {
 
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
@@ -158,15 +168,15 @@ select * from question;
 
 	}
 
+	/*
 	//2019-02-10 moeun update
-    //2019-02-15 Juyeon modify - searchQuestionById
+    //2019-02-15 Juyeon modify
 	public List<Question> searchWhereID(Question question) {
 		List<Question> resultList = new ArrayList<Question>();
 		String selectQuery = "select * from QUESTION WHERE ID = ?";
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
 		) {
-
 			preparedStatement.setInt(1,question.getId());
 			//System.out.println(question.getId());
 			ResultSet results = preparedStatement.executeQuery();
@@ -181,6 +191,7 @@ select * from question;
 		}
 		return resultList;
 	}
+	*/
 
 	//2019-02-09 3:06 m update -> select query
 	public List<Question> search(Question question) {
@@ -218,6 +229,33 @@ select * from question;
 		return resultList;
 	}
 	
+	//2019-02-16 Juyeon wrote
+	public List<Question> searchByTopic(String topic) {
+		List<Question> resultList = new ArrayList<Question>();
+		try (Connection connection = getConnection();
+	             PreparedStatement searchStatement = connection.prepareStatement(SEARCH_STATEMENT);
+	        ) {
+	            ResultSet results = searchStatement.executeQuery();
+	            while (results.next()) {
+	                List<String> st = toListfromString(results.getString("TOPIC"));
+	                for(int i = 0; i<st.size(); i++) {
+	                	if(st.get(i).equals(topic)) { //find the topic
+	                		Question q = new Question(results.getInt("ID"),results.getString("QUESTION"),
+	                				results.getInt("MCQ"),st,results.getInt("DIFFICULTY"));
+		                	resultList.add(q);
+	                		break;
+		                }
+	                }
+	                
+	            }
+	            results.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		return resultList;
+	}
+	
+	//2019-02-16 Juyeon wrote
 	public int ifLinkedornotWithMCQ(int mcqid) { //linked : return 1 / unlinked : return 0
 		String searchQuery = "SELECT ID FROM QUESTION WHERE MCQ=" + mcqid;
 		try (Connection connection = getConnection();
@@ -235,4 +273,5 @@ select * from question;
 		
 		return 0;
 	}
+
 }

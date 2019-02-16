@@ -20,10 +20,6 @@ public class Question {
 		return "Question :"+question + "]";
 	}
 
-	public String toStringofTopics() {
-		return String.join(",", topics); //topicsCommaSeparated..
-	}
-
 	public int getMcq() {
 		return mcq;
 	}

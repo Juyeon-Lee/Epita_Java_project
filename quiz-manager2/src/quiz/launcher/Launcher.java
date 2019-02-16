@@ -50,8 +50,25 @@ public class Launcher {
 
     static int grade = 0;
 
-    private static void searchByTopics(Scanner scanner) {
-
+    private static void searchByTopic(Scanner scanner) {
+    	QuestionJDBCDAO	dao = new QuestionJDBCDAO();
+    	MCQQuestionJDBCDAO	mcq = new MCQQuestionJDBCDAO();
+    	System.out.println("******Search Questions by Topic******");
+    	System.out.print("Enter one topic. : ");
+    	String topic = scanner.nextLine();
+    	List<Question> resultList;
+    	resultList = dao.searchByTopic(topic);
+    	for(int i=0; i<resultList.size(); i++) {
+    		Question q= resultList.get(i);
+            System.out.print("ID : "+ q.getId() + " / Question : " + q.getQuestion() 
+            +" / Topic : " + dao.toStringofTopics(q.getTopics()) + " / Difficulty : "+ q.getDifficulty());
+            if(q.getMcq()==0) {
+            	System.out.println(" / This question is not a MCQ question.");
+            }else {
+            	System.out.println(" / linked MCQ id : " + q.getMcq());
+            	mcq.print(q.getMcq());
+            }
+        }
     }
 
     //2019-02-15 Juyeon wrote
@@ -114,6 +131,7 @@ public class Launcher {
 
     }
 
+    //2019-02-16 Juyeon update
     private static void deleteQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcqDao) {
         System.out.println("******Delete Question******");
        
@@ -162,6 +180,7 @@ public class Launcher {
 
     }
 
+    //2019-02-10 Juyeon wrote
     private static void insertQuestion(Scanner scanner){
         System.out.println("******Insert Question******");
 
@@ -187,7 +206,7 @@ public class Launcher {
                 QuestionJDBCDAO dao = new QuestionJDBCDAO();
                 dao.create(question, 0);
             }
-
+            System.out.println("A question is created.");
             System.out.println("Do you want to Insert again? : y/n");
             char again = scanner.nextLine().charAt(0);
             if(again == 'n')
@@ -195,6 +214,7 @@ public class Launcher {
         }
     }
 
+    //2019-02-10 Juyeon wrote
     private static Question insertGeneralInfo(Scanner scanner) {
         System.out.println("Question contents: (Enter 'end' at the last line When you want stop typing for question.)");
         String s = scanner.nextLine();
@@ -208,11 +228,14 @@ public class Launcher {
         System.out.println("Topic : (Enter 'end' at the last line When you want stop typing for topics.)");
         List<String> topics = new ArrayList<String>();
 
-        do {
-            s = scanner.nextLine();
-            topics.add("s");
-        } while (!(s.equals("end")));
-
+        s = scanner.nextLine();
+        while(true) {
+        	topics.add(s);
+        	s = scanner.nextLine();
+        	if(s.equals("end"))
+        		break;
+        } 
+        
         System.out.println("Difficulty : ");
         int difficulty = scanner.nextInt();
         scanner.nextLine();
@@ -221,6 +244,7 @@ public class Launcher {
         return q;
     }
 
+    //2019-02-10 Juyeon wrote
     private static List<String> insertMCQInfo(Scanner scanner) {
         List<String> s = new ArrayList<String>();
 
@@ -275,7 +299,7 @@ public class Launcher {
                     showAll(dao);
                     break;
                 case '5': //search by topics
-                    searchByTopics(scanner);
+                    searchByTopic(scanner);
                     break;
                 default :
                     System.out.println("You typed wrong number. Please try again.");
@@ -387,6 +411,10 @@ public class Launcher {
 		            e.printStackTrace();
 		        }
 		    }
+		    System.out.println("A file is extracted in this project folder.");
+		}
+		else {
+			System.out.println("You wrote something not 'Y'");
 		}
 	}
 
