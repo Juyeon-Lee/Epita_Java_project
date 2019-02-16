@@ -1,15 +1,21 @@
 package quiz.datamodel;
 
 public class Student {
-	
+
 	String name;
-	String id;
+	int id;
 
-	public Student() {
+	public String getName() {
+		return name;
 	}
-
-	public Student(String name, String id) {
+	public void setName(String name) {
 		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
 		this.id = id;
 	}
+
 }

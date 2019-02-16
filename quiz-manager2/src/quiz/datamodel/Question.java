@@ -7,6 +7,7 @@ public class Question {
 
 	private int id;
 	private String question;
+	private int mcq;
 	private List<String> topics;
 	private Integer difficulty;
 	Random random = new Random();
@@ -23,12 +24,28 @@ public class Question {
 		return String.join(",", topics); //topicsCommaSeparated..
 	}
 
+	public int getMcq() {
+		return mcq;
+	}
+
+	public void setMcq(int mcq) {
+		this.mcq = mcq;
+	}
+
 	public Question(int i) {
 		this.id = i;
 	}
 
 	public Question(String question, List<String> topics, Integer difficulty) {
 		this.question = question;
+		this.topics = topics;
+		this.difficulty = difficulty;
+	}
+
+	public Question(int id, String question, int mcq, List<String> topics, Integer difficulty) {
+		this.id = id;
+		this.question = question;
+		this.mcq = mcq;
 		this.topics = topics;
 		this.difficulty = difficulty;
 	}
