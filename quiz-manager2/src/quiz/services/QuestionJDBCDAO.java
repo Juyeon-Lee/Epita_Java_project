@@ -14,15 +14,9 @@ import quiz.datamodel.Question;
 
 public class QuestionJDBCDAO {
 	
-	
-/*
-DELETE FROM QUESTION WHERE ID = 3;
-
-select * from question;
-*/
 
 	private static final String INSERT_STATEMENT = "INSERT INTO QUESTION (QUESTION, MCQ, TOPIC, DIFFICULTY) VALUES (?, ?, ?, ?)";
-	private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION";
+	private static final String SEARCH_STATEMENT = "SELECT * FROM QUESTION ";
 	private static final String UPDATE_STATEMENT = "UPDATE QUESTION SET QUESTION=?, MCQ=?, TOPIC=?, DIFFICULTY=? WHERE ID=?";
 	private static final String DELETE_STATEMENT = "DELETE FROM QUESTION WHERE ID = ?";
 
@@ -67,7 +61,6 @@ select * from question;
 
 	}
 
-	//2019-02-15 Juyeon wrote
 	public void update(ArrayList<String> list) {
 		try (Connection connection = getConnection();
 			 PreparedStatement updateStatement = connection.prepareStatement(UPDATE_STATEMENT)){
@@ -95,7 +88,6 @@ select * from question;
 		}
 	}
 
-	//2018-02-12 Juyeon wrote
 	public void printAll(){
 
         try (Connection connection = getConnection();
@@ -168,68 +160,7 @@ select * from question;
 
 	}
 
-	/*
-	//2019-02-10 moeun update
-    //2019-02-15 Juyeon modify
-	public List<Question> searchWhereID(Question question) {
-		List<Question> resultList = new ArrayList<Question>();
-		String selectQuery = "select * from QUESTION WHERE ID = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-		) {
-			preparedStatement.setInt(1,question.getId());
-			//System.out.println(question.getId());
-			ResultSet results = preparedStatement.executeQuery();
-			while (results.next()) {
-				String question_1 = results.getString("QUESTION");
-				Question currentQuestion = new Question(question_1);
-				resultList.add(currentQuestion);
-			}
-			results.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return resultList;
-	}
-	*/
 
-	//2019-02-09 3:06 m update -> select query
-	public List<Question> search(Question question) {
-		List<Question> resultList = new ArrayList<Question>();
-
-			/*SELECT
-		    ID,DIFFICULTY,QUESTION
-		    FROM QUESTION
-		    WHERE
-		       DIFFICULTY = 1
-		    and
-		      QUESTION LIKE '%JV%'
-
-		      */
-		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-		) {
-
-			//preparedStatement.setInt(1,question.getId());
-			preparedStatement.setInt(1,question.getDifficulty());
-			//preparedStatement.setString(3,question.getQuestion());
-			ResultSet results = preparedStatement.executeQuery();
-			while (results.next()) {
-				int id = results.getInt("ID");
-				int difficulty = results.getInt("DIFFICULTY");
-				String question_1 = results.getString("QUESTION");
-				Question currentQuestion = new Question(id,difficulty,question_1);
-				resultList.add(currentQuestion);
-			}
-			results.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return resultList;
-	}
-	
-	//2019-02-16 Juyeon wrote
 	public List<Question> searchByTopic(String topic) {
 		List<Question> resultList = new ArrayList<Question>();
 		try (Connection connection = getConnection();
@@ -255,7 +186,6 @@ select * from question;
 		return resultList;
 	}
 	
-	//2019-02-16 Juyeon wrote
 	public int ifLinkedornotWithMCQ(int mcqid) { //linked : return 1 / unlinked : return 0
 		String searchQuery = "SELECT ID FROM QUESTION WHERE MCQ=" + mcqid;
 		try (Connection connection = getConnection();
@@ -273,5 +203,42 @@ select * from question;
 		
 		return 0;
 	}
+	
+		public List<Question> search(Question question) {
+			List<Question> resultList = new ArrayList<Question>();
+
+				/*SELECT
+			    ID,DIFFICULTY,QUESTION
+			    FROM QUESTION
+			    WHERE
+			       DIFFICULTY = 1
+			    and
+			      QUESTION LIKE '%JV%'
+
+			      */
+			String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
+			try (Connection connection = getConnection();
+				 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+			) {
+
+				//preparedStatement.setInt(1,question.getId());
+				preparedStatement.setInt(1,question.getDifficulty());
+				//preparedStatement.setString(3,question.getQuestion());
+				ResultSet results = preparedStatement.executeQuery();
+				while (results.next()) {
+					int id = results.getInt("ID");
+					int difficulty = results.getInt("DIFFICULTY");
+					String question_1 = results.getString("QUESTION");
+					Question currentQuestion = new Question(id,difficulty,question_1);
+					resultList.add(currentQuestion);
+				}
+				results.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return resultList;
+		}
+		
+	
 
 }

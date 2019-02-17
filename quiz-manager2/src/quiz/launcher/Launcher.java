@@ -106,13 +106,13 @@ public class Launcher {
 				int key = scanner.nextInt();
 				switch (key) {
 				case 1:
-					condition = "where topic = 'Java Language Basics'";
+					condition = " where topic = 'Java Language Basics'";
 					break;
 				case 2:
-					condition = "where topic = 'Java Operators'";
+					condition = " where topic = 'Java Operators'";
 					break;
 				case 3:
-					condition = "where topic = 'Java Object Oricented Programming'";
+					condition = " where topic = 'Java Object Oricented Programming'";
 					break;
 				default:
 					break;
@@ -128,13 +128,13 @@ public class Launcher {
 				int key = scanner.nextInt();
 				switch (key) {
 				case 1:
-					condition = "where difficulty = 1";
+					condition = " where difficulty = 1";
 					break;
 				case 2:
-					condition = "where difficulty = 2";
+					condition = " where difficulty = 2";
 					break;
 				case 3:
-					condition = "where difficulty = 3";
+					condition = " where difficulty = 3";
 					break;
 				default:
 					break;
@@ -370,11 +370,10 @@ public class Launcher {
 		System.out.println("Please enter your name");
 		String name = scanner.nextLine();
 		student.setName(name);
-		System.out.println(student.getName());
 		System.out.println("Please enter your id");
 		String id = scanner.nextLine();
 		student.setId(id);
-		System.out.println(student.getId());
+		
 	}
 	
 	private static void extractQuizToFile(MCQQuestionJDBCDAO mcqDao, List<Question> fileQuestion) {
@@ -446,7 +445,11 @@ public class Launcher {
 				System.out.println("-----------------------");
 				System.out.println("Please enter your answer(You should enter not number, but the whole answer.)");
 
+				
 				answer = scanner.nextLine();
+				if( answer.length() ==0) // enter key condition
+					answer = scanner.nextLine();
+				System.out.println("answer: "+answer);
 				if (m.getAnswer().equals(answer))
 					grade++;
 			} else {
