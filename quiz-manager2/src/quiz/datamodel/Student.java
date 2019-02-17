@@ -3,7 +3,7 @@ package quiz.datamodel;
 public class Student {
 
 	String name;
-	int id;
+	String id;
 
 	public String getName() {
 		return name;
@@ -11,11 +11,12 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+	
 
 }
