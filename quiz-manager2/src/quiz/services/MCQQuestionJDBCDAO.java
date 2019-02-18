@@ -13,7 +13,8 @@ import quiz.datamodel.MCQQuestion;
 
 /**
  * For MCQQuestion Table
- * @author LeeJuyeon & SonMoeun
+ * @author LeeJuyeon
+ * @author SonMoeun
  *
  */
 public class MCQQuestionJDBCDAO {
@@ -53,7 +54,7 @@ public class MCQQuestionJDBCDAO {
 	 * First, it will insert a row and then find them again to know the MCQid.
 	 * It will make log "insert success" and "done getting MCQId : " + mcqId.
 	 * 
-	 * @param mcqInfo - List<String> : choice1~4, answer
+	 * @param mcqInfo - List of String : choice1~4, answer
 	 * @return int - 0: error / other number : the MCQid of created MCQ information
 	 * @author LeeJuyeon
 	 */
@@ -95,7 +96,7 @@ public class MCQQuestionJDBCDAO {
 	 * This method will perform 'update' command by using parameters for MCQQuestion table.
 	 * It will make log "A MCQquestion is updated."
 	 * 
-	 * @param list - ArrayList<String> : choice1~4, answer, mcqid
+	 * @param list - ArrayList of String : choice1~4, answer, mcqid
 	 * @author LeeJuyeon
 	 */
     public void update(ArrayList<String> list) {
@@ -168,7 +169,7 @@ public class MCQQuestionJDBCDAO {
 
 	/**
 	 * This method will print choice1, choice2, choice3, choice4, and answer by mcqid.
-	 * @param mcqid
+	 * @param mcqid - int
 	 * @author LeeJuyeon
 	 */
 	public void print(int mcqid){

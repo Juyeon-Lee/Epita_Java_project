@@ -14,7 +14,8 @@ import quiz.datamodel.Question;
 
 /**
  * For Question Table
- * @author LeeJuyeon & SonMoeun
+ * @author LeeJuyeon
+ * @author SonMoeun
  *
  */
 public class QuestionJDBCDAO {
@@ -48,7 +49,7 @@ public class QuestionJDBCDAO {
 	 * This method will convert a list of topics to a String of topics.
 	 * The String will be comma separated.
 	 * 
-	 * @param topics - List<String>
+	 * @param topics - List of String
 	 * @return String 
 	 * @author LeeJuyeon
 	 */
@@ -60,7 +61,7 @@ public class QuestionJDBCDAO {
 	 * This method will convert a String of topics to a list of topics.
 	 * 
 	 * @param topic - string
-	 * @return List<String>
+	 * @return List of String
 	 * @author LeeJuyeon
 	 */
 	public List<String> toListfromString(String topic){
@@ -98,7 +99,7 @@ public class QuestionJDBCDAO {
 	/**
 	 * This method will perform 'update' command by using parameters.
 	 * 
-	 * @param list - ArrayList<String> : question, mcq, topics, difficulty, id
+	 * @param list - ArrayList of String : question, mcq, topics, difficulty, id
 	 * @author LeeJuyeon(updated the original one)
 	 */
 	public void update(ArrayList<String> list) {
@@ -217,7 +218,7 @@ public class QuestionJDBCDAO {
 	 * 
 	 * @see #toListfromString(String)
 	 * @param topic - String
-	 * @return List<Question>
+	 * @return List of Question
 	 * @author LeeJuyeon
 	 */
 	public List<Question> searchByTopic(String topic) {
@@ -246,7 +247,7 @@ public class QuestionJDBCDAO {
 	
 	/**
 	 * This method will return 1 or 0 that is indicated if it's linked or not with MCQquestion.
-	 * @param mcqid
+	 * @param mcqid - int
 	 * @return int - linked : return 1 / unlinked : return 0
 	 * @author LeeJuyeon
 	 */

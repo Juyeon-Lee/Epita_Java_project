@@ -1,0 +1,227 @@
+# Q. What will happen when you compile and run the following code?
+public class Test{
+	
+	public static void main(String[] args){
+		
+		double d1 = Double.NaN;		
+		double d2 = d1;
+		
+		if(d1 == d2)
+			System.out.println("Equal");
+		else
+			System.out.println("Not Equal");
+	}
+	
+}
+
+
+Choice1 : Equal
+Choice2 : Not Equal
+Choice3 : The code will not compile
+Choice4 : The code will compile but will throw run time error
+Answer : Not Equal
+# Q. What will happen when you compile and run the following code?
+public class Test{	
+	
+	public static void main(String[] args){
+		int i = 10;
+		int j = 25;
+		System.out.println(i + " " + j);
+	}
+}
+
+
+Choice1 : 10 25
+Choice2 : 35
+Choice3 : 67
+Choice4 : The code will not compile
+Answer : 10 25
+# Q. What will happen when you compile and run the following code?
+public class Test {
+	
+	public static void main(String[] args){		
+		
+		int i = 10;
+		int j = 12;
+		i+=++j;
+		System.out.println(i);
+
+	}
+}
+
+
+Choice1 : 13
+Choice2 : 23
+Choice3 : 22
+Choice4 : 12
+Answer : 23
+# Q. What will happen when you compile and run the following code?
+public class Test {
+	
+	public static void main(String[] args){
+		int i = 010;
+		System.out.println(i);
+	}
+}
+
+
+Choice1 : Compilation error
+Choice2 : Runtime error
+Choice3 : 8
+Choice4 : 10
+Answer : 8
+# Q. What will happen when you compile and run the following code?
+public class Test{
+	
+	public static void main(String[] args) {
+		int i = 0;
+		int j = i++ + ++i;
+		System.out.println( j );
+	}
+}
+
+
+Choice1 : 1
+Choice2 : 3
+Choice3 : 2
+Choice4 : 4
+Answer : 2
+# Q. What will happen when you compile and run the following code?
+public class Test{
+	
+	public static void main(String[] args) {
+		int i = 0;
+		int j = ++i + i++;
+		System.out.println( j );
+	}
+}
+
+
+Choice1 : 3
+Choice2 : 2
+Choice3 : 4
+Choice4 : 1
+Answer : 2
+# Q. What will happen when you compile and run the following code?
+public class Test{
+	
+	public static void main(String[] args) {
+		int i = 100;
+		int j = 10;
+		System.out.println( i%j );
+	}
+}
+
+
+Choice1 : 10
+Choice2 : 0
+Choice3 : Compilation error
+Choice4 : None of the above
+Answer : 0
+# Q. What will happen when you compile and run the following code?
+public class Test{
+	
+	public static void main(String[] args) {
+		int i = 0;
+		int j = 1;
+		if(!i && j)
+			System.out.println("1");
+		else
+			System.out.println("2");
+	}
+}
+
+
+# Q. What will happen when you compile and run the following code?
+class One{
+	int i = 1;
+	public int getInt(){
+		return i;
+	}
+}
+
+class Two extends One{
+	int i = 2;
+	public int getInt(){
+		return i;
+	}	
+}
+public class Test{
+	public static void main(String[] args) {
+		One one = new One();
+		Two two = (Two)one;
+		System.out.println( two.getInt() );
+	}
+}
+
+
+Choice1 : 1
+Choice2 : 2
+Choice3 : Compilation error
+Choice4 : Runtime error
+Answer : Runtime error
+# Q. What will happen when you compile and run the following code?
+class One{	
+	public static void print(){
+		System.out.println("1");
+	}
+}
+
+class Two extends One{
+	public static void print(){
+		System.out.println("2");
+	}
+}
+
+public class Test{	
+	public static void main(String args[]){
+		One one = new Two();
+		one.print();
+	}	
+}
+
+
+Choice1 : 1
+Choice2 : 2
+Choice3 : Compilation error
+Choice4 : Runtime error
+Answer : 1
+# Q. What will happen when you compile and run the following code?
+class One{	
+	public static void print(int i){
+		System.out.println("Parent");
+	}
+}
+
+class Two extends One{
+	public static void print(byte b){
+		System.out.println("Child");
+	}
+}
+
+public class Test{
+	
+	public static void main(String args[]){
+		One one = new Two();
+		one.print(10);
+	}	
+}
+
+
+Choice1 : Parent
+Choice2 : Child
+Choice3 : Compilation error
+Choice4 : Runtime error
+Answer : Parent
+# Q. Will this code compile successfully?
+class One{
+	public void process(){
+		System.out.println("Parent");
+	}
+}
+
+public abstract class Test extends One{
+	public abstract void process();
+}
+
+

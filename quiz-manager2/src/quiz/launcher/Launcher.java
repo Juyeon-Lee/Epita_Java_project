@@ -43,7 +43,8 @@ import java.sql.SQLException;
  * -show score//run the evaluation and provide
  * the automatic mark in the end of this execution
  * 
- * @author Moeun & Juyeon
+ * @author LeeJuyeon
+ * @author SonMoeun
  * @version 1.0(2019-02-16)
  *
  */
@@ -53,6 +54,11 @@ public class Launcher {
 
 	static int grade = 0;
 
+	/**
+	 * 
+	 * @param args - standard main
+	 * @throws SQLException - ...
+	 */
 	public static void main(String[] args) throws SQLException {
 		scanner = new Scanner(System.in);
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
@@ -426,10 +432,10 @@ public class Launcher {
 
 	/**
 	 * This method will get inputs(choices and answer) from the user,
-	 *  and return the list to {@link #insertQuestion(Scanner)} by List<String> form.
+	 *  and return the list to {@link #insertQuestion(Scanner)} by List of String form.
 	 * 
 	 * @param scanner
-	 * @return List<String> - choice1~4, answer
+	 * @return List of String - choice1~4, answer
 	 * @author LeeJuyeon
 	 */
 	private static List<String> insertMCQInfo(Scanner scanner) {
