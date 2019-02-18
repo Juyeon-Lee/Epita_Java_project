@@ -529,7 +529,7 @@ public class Launcher {
 	 * @param condition
 	 * @author moeun
 	 * @return
-	 */
+	 **/
 	private static List<Question> solveQuiz(List<Question> fileQuestion, String condition) {
 		// Show problem and example according to condition.
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
