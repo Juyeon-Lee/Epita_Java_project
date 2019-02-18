@@ -21,27 +21,22 @@ import java.sql.SQLException;
  * stored in a database or an XML file or a JSON file) 
  * -insert(create) -update -delete -show all(read) -show (search by topics)
  * 
- * ##Solve a quiz user guide(solve a quiz) 
- * Users are divided into admin and
- * student. admin is a quiz manager who can use quiz CRUD. Student can quiz by
- * all , topics, and difficulty levels. The first database contains 12 quizzes
- * and correct answers of three types(mcq, open , associative) Students can
- * choose one's type of quiz after all the quizzes are over, the student answers
- * whether they can extract the problem that they solve. Finally, the student
- * scores are printed and the quiz ends. // every quiz includes 3 question
- * types(mcq, open, associative) 
- * -insert student info //be able to assemble
- * automatically a quiz (a quiz is a set of questions) that gathers all the
- * questions covering a given list of topics. 
- * -solve a quiz(ALL) 
- * -solve a quiz(by topics)//be able to search questions based on topics 
- * -solve a quiz(by difficulty)//Write an algorithm (or use an existing one) that will allow to
- * get quiz based on a complexity rate. This overall complexity required by the
- * user can be calculated on the difficulty property. 
- * -export file?//export this
- * quiz under a plain text format 
- * -show score//run the evaluation and provide
- * the automatic mark in the end of this execution
+ *   ##student(solve a quiz)
+ *Student can quiz by all , topics, and difficulty levels.
+ *The first database contains 12 quizzes and correct answers of three types(mcq, open , associative) 
+ *First, Students can choose to  one's quiz and solve the quiz.
+ *Second, student can choose to extract the quiz to a file after every quiz is finished.
+ *Finally, the student scores are printed and the quiz ends. 
+ *
+ *>> insert student info //be able to assemble
+ *>> select a menu
+ *- solve a quiz(ALL) // all the question
+ *-solve a quiz(by topics)//be able to search questions based on topics
+ *-solve a quiz(by difficulty)//Write an algorithm (or use an existing one) that will allow to get quiz based on a complexity rate. 
+ *This overall complexity required by the user can be calculated on the difficulty property. 
+ *>> export this quiz under a plain text format 
+ *>> show score//run the evaluation and provide the automatic mark in the end of this execution
+ *
  * 
  * @author Moeun & Juyeon
  * @version 1.0(2019-02-16)
