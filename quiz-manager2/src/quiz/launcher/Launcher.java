@@ -444,6 +444,12 @@ public class Launcher {
 		return s;
 	}
 
+	/**
+	 * save the student info(name & id)
+	 * @author moeun
+	 * @param scanner
+	 * @param student
+	 */
 	private static void studentLogin(Scanner scanner, Student student) {
 		// student login method > it stores student information in the student class
 		System.out.println("Student Login");
@@ -457,8 +463,15 @@ public class Launcher {
 		
 	}
 	
+	/**
+	 * This is a method that saves the quizzes to a file.
+	 * 
+	 * @param mcqDao
+	 * @param fileQuestion
+	 * @author moeun
+	 */
 	private static void extractQuizToFile(MCQQuestionJDBCDAO mcqDao, List<Question> fileQuestion) {
-		// This is a method that saves the quizzes to a file.
+		
 		String answer;
 		FileWriter writer = null;
 
@@ -497,6 +510,16 @@ public class Launcher {
 		}
 	}
 
+	/**
+	 * This is a search the question and answer by the condition(where topic/difficulty(
+	 * if you select the number(condition) , this search and return List<Question>
+	 * @see quiz.services.QuestionJDBCDAO#showAll
+	 * @see quiz.services.MCQQuestionJDBCDAO#showWhereMcqid(int)
+	 * @param fileQuestion
+	 * @param condition
+	 * @author moeun
+	 * @return
+	 */
 	private static List<Question> solveQuiz(List<Question> fileQuestion, String condition) {
 		// Show problem and example according to condition.
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
