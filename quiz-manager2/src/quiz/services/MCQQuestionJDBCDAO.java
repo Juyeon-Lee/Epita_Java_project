@@ -11,6 +11,12 @@ import java.util.logging.Logger;
 
 import quiz.datamodel.MCQQuestion;
 
+/**
+ * For MCQQuestion Table
+ * @author LeeJuyeon
+ * @author SonMoeun
+ *
+ */
 public class MCQQuestionJDBCDAO {
 
 	/*
@@ -27,6 +33,13 @@ public class MCQQuestionJDBCDAO {
 
 	private static final Logger LOG = Logger.getGlobal();
 
+	/**
+	 * @see quiz.services.Configuration#getInstance()
+	 * @see quiz.services.Configuration#getConfigurationValue(String)
+	 * 
+	 * @return Connection
+	 * @throws SQLException
+	 */
 	private Connection getConnection() throws SQLException {
 		Configuration conf = Configuration.getInstance();
 		String jdbcUrl = conf.getConfigurationValue("jdbc.url");
@@ -36,6 +49,15 @@ public class MCQQuestionJDBCDAO {
 		return connection;
 	}
 	
+	/**
+	 * This method will perform 'insert' command by using parameters for MCQQuestion table.
+	 * First, it will insert a row and then find them again to know the MCQid.
+	 * It will make log "insert success" and "done getting MCQId : " + mcqId.
+	 * 
+	 * @param mcqInfo - List of String : choice1~4, answer
+	 * @return int - 0: error / other number : the MCQid of created MCQ information
+	 * @author LeeJuyeon
+	 */
 	public int create(List<String> mcqInfo) {
 		
 		try (Connection connection = getConnection();
@@ -44,10 +66,8 @@ public class MCQQuestionJDBCDAO {
             for (int i = 0; i < 5; i++) {
                 insertStatement.setString(i+1, mcqInfo.get(i));
             }
-
 			insertStatement.execute();
 			LOG.info("insert success");
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +92,13 @@ public class MCQQuestionJDBCDAO {
 		return 0;// 0 : error
 	}
 
-	//2019-02-15 Juyeon wrote
+	/**
+	 * This method will perform 'update' command by using parameters for MCQQuestion table.
+	 * It will make log "A MCQquestion is updated."
+	 * 
+	 * @param list - ArrayList of String : choice1~4, answer, mcqid
+	 * @author LeeJuyeon
+	 */
     public void update(ArrayList<String> list) {
 
         try (Connection connection = getConnection();
@@ -89,7 +115,13 @@ public class MCQQuestionJDBCDAO {
 
     }
 
-	//2019-02-16 Juyeon wrote
+	/**
+	 * This method will perform 'delete' command by using mcqid for MCQQuestion table.
+	 * It will make log "A MCQquestion is deleted."
+	 * 
+	 * @param mcqid - int
+	 * @author LeeJuyeon
+	 */
     public void delete(int mcqid) {
 
         try (Connection connection = getConnection();
@@ -135,14 +167,18 @@ public class MCQQuestionJDBCDAO {
 		return currentQuestion;
 	}
 
-	//2019-02-15 Juyeon wrote
+	/**
+	 * This method will print choice1, choice2, choice3, choice4, and answer by mcqid.
+	 * @param mcqid - int
+	 * @author LeeJuyeon
+	 */
 	public void print(int mcqid){
 	    try(Connection connection = getConnection();
             PreparedStatement printMCQStatement = connection.prepareStatement(SEARCH_STATEMENT_BY_ID);
         ){
 	    	printMCQStatement.setInt(1,mcqid);
 	        ResultSet result_mcq = printMCQStatement.executeQuery();
-	        while(result_mcq.next()) {// 이거 안 해서 안 나왔음.......
+	        while(result_mcq.next()) {
 	        	for (int i = 1; i < 5; i++) {
 	                System.out.println("choice"+i+" : "+ result_mcq.getString("choice"+i));
 	            }

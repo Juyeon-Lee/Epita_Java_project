@@ -38,7 +38,8 @@ import java.sql.SQLException;
  *>> show score//run the evaluation and provide the automatic mark in the end of this execution
  *
  * 
- * @author Moeun & Juyeon
+ * @author LeeJuyeon
+ * @author SonMoeun
  * @version 1.0(2019-02-16)
  *
  */
@@ -48,6 +49,11 @@ public class Launcher {
 
 	static int grade = 0;
 
+	/**
+	 * 
+	 * @param args - standard main
+	 * @throws SQLException - ...
+	 */
 	public static void main(String[] args) throws SQLException {
 		scanner = new Scanner(System.in);
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
@@ -159,7 +165,7 @@ public class Launcher {
 	
 	/**
 	 * Print administrator's start Page
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 * 
 	 */
 	private static void adminStartPage() {
@@ -183,7 +189,7 @@ public class Launcher {
 	 * @see quiz.services.MCQQuestionJDBCDAO#create(List)
 	 * 
 	 * @param scanner - It will scan some information
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static void insertQuestion(Scanner scanner) {
 		System.out.println("******Insert Question******");
@@ -232,7 +238,7 @@ public class Launcher {
 	 * @param dao - QuestionJDBCDAO
 	 * @param mcq - MCQQuestionJDBCDAO
 	 * 
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static void updateQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcq) {
 		System.out.println("******Update Question******");
@@ -292,7 +298,7 @@ public class Launcher {
 	 * @param dao - QuestionJDBCDAO
 	 * @param mcqDao - MCQQuestionJDBCDAO
 	 * 
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static void deleteQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcqDao) {
 		System.out.println("******Delete Question******");
@@ -345,7 +351,7 @@ public class Launcher {
 	 * 
 	 * @see quiz.services.QuestionJDBCDAO#printAll()
 	 * @param dao
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static void showAll(QuestionJDBCDAO dao) {
 		dao.printAll();
@@ -360,7 +366,7 @@ public class Launcher {
 	 * @see quiz.services.QuestionJDBCDAO#toStringofTopics(List)
 	 * 
 	 * @param scanner - It will scan some information
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static void searchByTopic(Scanner scanner) {
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
@@ -384,11 +390,12 @@ public class Launcher {
 	}
 	
 	/**
-	 * {@link #insertQuestion(Scanner)}
+	 * This method will get inputs(question, topics, difficulty) from the user,
+	 *  and return question to {@link #insertQuestion(Scanner)} by Question{@link quiz.datamodel.Question} form.
 	 * 
 	 * @param scanner - It will scan some information
 	 * @return Question - to return Question to insertQuestion
-	 * @author Juyeon
+	 * @author LeeJuyeon
 	 */
 	private static Question insertGeneralInfo(Scanner scanner) {
 		System.out.println("Question contents: (Enter 'end' at the last line When you want stop typing for question.)");
@@ -418,6 +425,14 @@ public class Launcher {
 		return q;
 	}
 
+	/**
+	 * This method will get inputs(choices and answer) from the user,
+	 *  and return the list to {@link #insertQuestion(Scanner)} by List of String form.
+	 * 
+	 * @param scanner
+	 * @return List of String - choice1~4, answer
+	 * @author LeeJuyeon
+	 */
 	private static List<String> insertMCQInfo(Scanner scanner) {
 		List<String> s = new ArrayList<String>();
 
