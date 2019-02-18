@@ -13,32 +13,39 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-
-/** @author moeun & juyeon **/
-
-/*
- * Code Explanation There are Two part ##admin questions//be able to operate
+ 
+/**
+ * Code Explanation There are Two part 
+ * ##admin questions//be able to operate
  * CRUD on Open Questions and MCQ Questions (questions and valid answers are
- * stored in a database or an XML file or a JSON file) -insert(create) -update
- * -delete -show all(read) -show (search by topics)
+ * stored in a database or an XML file or a JSON file) 
+ * -insert(create) -update -delete -show all(read) -show (search by topics)
  * 
- * ##Solve a quiz user guide(solve a quiz) Users are divided into admin and
+ * ##Solve a quiz user guide(solve a quiz) 
+ * Users are divided into admin and
  * student. admin is a quiz manager who can use quiz CRUD. Student can quiz by
  * all , topics, and difficulty levels. The first database contains 12 quizzes
  * and correct answers of three types(mcq, open , associative) Students can
  * choose one's type of quiz after all the quizzes are over, the student answers
  * whether they can extract the problem that they solve. Finally, the student
  * scores are printed and the quiz ends. // every quiz includes 3 question
- * types(mcq, open, associative) -insert student info //be able to assemble
+ * types(mcq, open, associative) 
+ * -insert student info //be able to assemble
  * automatically a quiz (a quiz is a set of questions) that gathers all the
- * questions covering a given list of topics. -solve a quiz(ALL) -solve a
- * quiz(by topics)//be able to search questions based on topics -solve a quiz(by
- * difficulty)//Write an algorithm (or use an existing one) that will allow to
+ * questions covering a given list of topics. 
+ * -solve a quiz(ALL) 
+ * -solve a quiz(by topics)//be able to search questions based on topics 
+ * -solve a quiz(by difficulty)//Write an algorithm (or use an existing one) that will allow to
  * get quiz based on a complexity rate. This overall complexity required by the
- * user can be calculated on the difficulty property. -export file?//export this
- * quiz under a plain text format -show score//run the evaluation and provide
+ * user can be calculated on the difficulty property. 
+ * -export file?//export this
+ * quiz under a plain text format 
+ * -show score//run the evaluation and provide
  * the automatic mark in the end of this execution
  * 
+ * @author Moeun & Juyeon
+ * @version 1.0(2019-02-16)
+ *
  */
 public class Launcher {
 
@@ -155,6 +162,11 @@ public class Launcher {
 		scanner.close();
 	}
 	
+	/**
+	 * Print administrator's start Page
+	 * @author Juyeon
+	 * 
+	 */
 	private static void adminStartPage() {
 		System.out.println("-----------------------");
 		System.out.println("**Admin questions**");
@@ -166,6 +178,18 @@ public class Launcher {
 		System.out.println("5. Show (search by topics)");
 	}
 
+	/**
+	 * You can insert a open question or MCQquestion in administrator's mode :
+	 * Once you go to {@link #insertGeneralInfo(Scanner)}, 
+	 * if you want to create a MCQquestion, you'll go to {@link #insertMCQInfo(Scanner)}.
+	 * Then, linked DAO's create method will execute a create query.
+	 * If you want to create questions more, you can do it.
+	 * @see quiz.services.QuestionJDBCDAO#create(Question, int)
+	 * @see quiz.services.MCQQuestionJDBCDAO#create(List)
+	 * 
+	 * @param scanner - It will scan some information
+	 * @author Juyeon
+	 */
 	private static void insertQuestion(Scanner scanner) {
 		System.out.println("******Insert Question******");
 
@@ -199,6 +223,22 @@ public class Launcher {
 		}
 	}
 	
+	/**
+	 * You can update a open question or MCQquestion in administrator's mode
+	 * If you don't know well about questions, you can see the list of questions 
+	 * You must follow the rule of typing.
+	 * If you choice 1, you will go to quesion's update and the other choice will send you to mcqquestion's update
+	 * If you want to update questions more, you can do it.
+	 * @see quiz.services.QuestionJDBCDAO#printAll()
+	 * @see quiz.services.QuestionJDBCDAO#update(ArrayList)
+	 * @see quiz.services.MCQQuestionJDBCDAO#update(ArrayList)
+	 * 
+	 * @param scanner - It will scan some information
+	 * @param dao - QuestionJDBCDAO
+	 * @param mcq - MCQQuestionJDBCDAO
+	 * 
+	 * @author Juyeon
+	 */
 	private static void updateQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcq) {
 		System.out.println("******Update Question******");
 		while (true) {
@@ -243,6 +283,22 @@ public class Launcher {
 
 	}
 
+	/**
+	 * You can delete a open question or MCQquestion in administrator's mode
+	 * If you don't know well about questions, you can see the list of questions 
+	 * You must follow the rule of typing.
+	 * If you choice 1, you will go to quesion's delete and the other choice will send you to mcqquestion's delete
+	 * If you want to delete questions more, you can do it.
+	 * @see quiz.services.QuestionJDBCDAO#printAll()
+	 * @see quiz.services.QuestionJDBCDAO#delete(int)
+	 * @see quiz.services.MCQQuestionJDBCDAO#delete(int)
+	 * 
+	 * @param scanner - It will scan some information
+	 * @param dao - QuestionJDBCDAO
+	 * @param mcqDao - MCQQuestionJDBCDAO
+	 * 
+	 * @author Juyeon
+	 */
 	private static void deleteQuestion(Scanner scanner, QuestionJDBCDAO dao, MCQQuestionJDBCDAO mcqDao) {
 		System.out.println("******Delete Question******");
 
@@ -289,10 +345,28 @@ public class Launcher {
 
 	}
 
+	/**
+	 * You can see the list of questions in administrator's mode
+	 * 
+	 * @see quiz.services.QuestionJDBCDAO#printAll()
+	 * @param dao
+	 * @author Juyeon
+	 */
 	private static void showAll(QuestionJDBCDAO dao) {
 		dao.printAll();
 	}
 
+	/**
+	 * This will scan a topic from user, and send it to searchByTopic of dao.
+	 * Finally, it will receive a resultList from searchByTopic.
+	 * In for Loop, it will print all information of suited question which's open question or MCQ question.
+	 * For doing the process, it use toStringofTopics to make list of topics to String.
+	 * @see quiz.services.QuestionJDBCDAO#searchByTopic(String)
+	 * @see quiz.services.QuestionJDBCDAO#toStringofTopics(List)
+	 * 
+	 * @param scanner - It will scan some information
+	 * @author Juyeon
+	 */
 	private static void searchByTopic(Scanner scanner) {
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
 		MCQQuestionJDBCDAO mcq = new MCQQuestionJDBCDAO();
@@ -314,6 +388,13 @@ public class Launcher {
 		}
 	}
 	
+	/**
+	 * {@link #insertQuestion(Scanner)}
+	 * 
+	 * @param scanner - It will scan some information
+	 * @return Question - to return Question to insertQuestion
+	 * @author Juyeon
+	 */
 	private static Question insertGeneralInfo(Scanner scanner) {
 		System.out.println("Question contents: (Enter 'end' at the last line When you want stop typing for question.)");
 		String s = scanner.nextLine();
