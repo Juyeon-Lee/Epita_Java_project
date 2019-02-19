@@ -28,14 +28,14 @@ import java.sql.SQLException;
  *Second, student can choose to extract the quiz to a file after every quiz is finished.
  *Finally, the student scores are printed and the quiz ends. 
  *
- *>> insert student info //be able to assemble
- *>> select a menu
+ *+++ insert student info //be able to assemble
+ *+++ select a menu
  *- solve a quiz(ALL) // all the question
  *-solve a quiz(by topics)//be able to search questions based on topics
  *-solve a quiz(by difficulty)//Write an algorithm (or use an existing one) that will allow to get quiz based on a complexity rate. 
  *This overall complexity required by the user can be calculated on the difficulty property. 
- *>> export this quiz under a plain text format 
- *>> show score//run the evaluation and provide the automatic mark in the end of this execution
+ *+++ export this quiz under a plain text format 
+ *+++ show score//run the evaluation and provide the automatic mark in the end of this execution
  *
  * 
  * @author LeeJuyeon
@@ -455,7 +455,7 @@ public class Launcher {
 	}
 
 	/**
-	 * save the student info(name & id)
+	 * save the student info(name and id)
 	 * @author moeun
 	 * @param scanner
 	 * @param student
@@ -487,11 +487,14 @@ public class Launcher {
 
 		System.out.println("Do you want to extract the quiz to a file?? (Y/N)");
 		answer = scanner.nextLine();
+		QuestionJDBCDAO dao = new QuestionJDBCDAO();
 		if (answer.equals("Y")) {
 			File file = new File("test1.txt");
 			for (int k = 0; k < fileQuestion.size() - 1; k++) {
 				try {
 					writer = new FileWriter(file, true);
+					writer.write("Topic : <"+ dao.toStringofTopics(fileQuestion.get(k).getTopics()) +">");
+					writer.write(System.getProperty("line.separator"));
 					writer.write("# Q. " + fileQuestion.get(k).getQuestion());
 					writer.write(System.getProperty("line.separator"));
 					int mcqid = fileQuestion.get(k).getMcq();
@@ -522,7 +525,7 @@ public class Launcher {
 
 	/**
 	 * This is a search the question and answer by the condition(where topic/difficulty(
-	 * if you select the number(condition) , this search and return List<Question>
+	 * if you select the number(condition) , this search and return List of Questions
 	 * @see quiz.services.QuestionJDBCDAO#showAll
 	 * @see quiz.services.MCQQuestionJDBCDAO#showWhereMcqid(int)
 	 * @param fileQuestion

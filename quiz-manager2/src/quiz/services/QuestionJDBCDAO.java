@@ -164,29 +164,42 @@ public class QuestionJDBCDAO {
         }
     }
 
+	/**
+	 * This method will do select query with a condition, and send List of questions with id, question, linked mcq id, topics, difficulty.
+	 * 
+	 * @see #toListfromString(String)
+	 * @param condition - String
+	 * @return List of Question
+	 * @author SonMoeun
+	 */
 	public List<Question> showAll(String condition) {
 		List<Question> resultList = new ArrayList<Question>();
 
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement( SEARCH_STATEMENT+condition );) {
-
+			QuestionJDBCDAO dao = new QuestionJDBCDAO();
 			ResultSet results = preparedStatement.executeQuery();
 			while (results.next()) {
 				int id = results.getInt("ID");
 				String question = results.getString("QUESTION");
 				int mcq = results.getInt("MCQ");
-				String topic = results.getString("TOPIC");
+				List<String> topics = dao.toListfromString(results.getString("TOPIC"));
 				int difficulty = results.getInt("DIFFICULTY");
-				Question currentQuestion = new Question(id, question, mcq, null, difficulty);
+				Question currentQuestion = new Question(id, question, mcq, topics, difficulty);
 				resultList.add(currentQuestion);
 			}
 			results.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return resultList;
 	}
 
+	/**
+	 * The method will print all Ids of questions.
+	 * 
+	 * @author SonMoeun
+	 */
 	public void showAllID() {
 		List<Question> resultList = new ArrayList<Question>();
 		String selectQuery = "select ID from QUESTION";
@@ -201,7 +214,7 @@ public class QuestionJDBCDAO {
 				resultList.add(currentQuestion);
 			}
 			results.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		for(int i=0;i<resultList.size();i++) {
@@ -262,47 +275,42 @@ public class QuestionJDBCDAO {
 					return id;
 				}
 				results.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		
 		return 0;
 	}
 	
-		public List<Question> search(Question question) {
-			List<Question> resultList = new ArrayList<Question>();
-
-				/*SELECT
-			    ID,DIFFICULTY,QUESTION
-			    FROM QUESTION
-			    WHERE
-			       DIFFICULTY = 1
-			    and
-			      QUESTION LIKE '%JV%'
-
-			      */
-			String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
-			try (Connection connection = getConnection();
-				 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
-			) {
-
-				//preparedStatement.setInt(1,question.getId());
-				preparedStatement.setInt(1,question.getDifficulty());
-				//preparedStatement.setString(3,question.getQuestion());
-				ResultSet results = preparedStatement.executeQuery();
-				while (results.next()) {
-					int id = results.getInt("ID");
-					int difficulty = results.getInt("DIFFICULTY");
-					String question_1 = results.getString("QUESTION");
-					Question currentQuestion = new Question(id,difficulty,question_1);
-					resultList.add(currentQuestion);
-				}
-				results.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+	/**
+	 * This method will excute query "select Id, difficulty, question from question where difficulty = ?".
+	 * 
+	 * @param question - Question
+	 * @return list of Question
+	 * @author SonMoeun
+	 */
+	public List<Question> search(Question question) {
+		List<Question> resultList = new ArrayList<Question>();
+	
+		String selectQuery = "select ID,DIFFICULTY,QUESTION from QUESTION WHERE DIFFICULTY = ?";
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+		) {
+			preparedStatement.setInt(1,question.getDifficulty());
+			ResultSet results = preparedStatement.executeQuery();
+			while (results.next()) {
+				int id = results.getInt("ID");
+				int difficulty = results.getInt("DIFFICULTY");
+				String question_1 = results.getString("QUESTION");
+				Question currentQuestion = new Question(id,difficulty,question_1);
+				resultList.add(currentQuestion);
 			}
-			return resultList;
+			results.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return resultList;
+	}
 		
 	
 

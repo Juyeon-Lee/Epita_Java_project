@@ -134,8 +134,14 @@ public class MCQQuestionJDBCDAO {
         }
     }
 
-    //Moeun wrote
-    //2019-02-16 Juyeon modify
+    /**
+     * This method return if answer is correct answer or not.
+     * @deprecated
+     * @param mcqid - int
+     * @param answer - String
+     * @return boolean : 1 : correct / 0 : incorrect
+     * @author SonMoeun
+     */
 	public boolean correctAnswer(int mcqid,String answer )
 	{
 		MCQQuestion rAnswer = showWhereMcqid(mcqid);
@@ -143,7 +149,14 @@ public class MCQQuestionJDBCDAO {
 		return rAnswer.getAnswer().equals(answer);
 	}
 
-	//2019-02-16 Juyeon modify 
+	/**
+	 * This method will be called with mcqid.
+	 * It will find information by mcqid and send a MCQQuestion with MCQId, choice1~4, and answer.
+	 * 
+	 * @param mcqid - int
+	 * @return MCQQuestion
+	 * @author SonMoeun
+	 */
 	public MCQQuestion showWhereMcqid(int mcqid) {
 		MCQQuestion currentQuestion = new MCQQuestion();
 		try (Connection connection = getConnection();
