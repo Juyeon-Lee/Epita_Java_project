@@ -230,6 +230,9 @@ public abstract class Test extends One{
 
 ','Java Object Oriented Programming',2);
 
+INSERT INTO QUESTION (QUESTION,TOPIC,DIFFICULTY) VALUES
+('What is your university name?','communication,introduction',1);
+
 ALTER TABLE MCQQUESTION
   ALTER COLUMN MCQID
   INT AUTO_INCREMENT

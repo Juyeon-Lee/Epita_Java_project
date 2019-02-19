@@ -1,3 +1,4 @@
+Topic : <Java Language Basics>
 # Q. What will happen when you compile and run the following code?
 public class Test{
 	
@@ -20,6 +21,8 @@ Choice2 : Not Equal
 Choice3 : The code will not compile
 Choice4 : The code will compile but will throw run time error
 Answer : Not Equal
+------------------------------------
+Topic : <Java Language Basics>
 # Q. What will happen when you compile and run the following code?
 public class Test{	
 	
@@ -36,6 +39,8 @@ Choice2 : 35
 Choice3 : 67
 Choice4 : The code will not compile
 Answer : 10 25
+------------------------------------
+Topic : <Java Language Basics>
 # Q. What will happen when you compile and run the following code?
 public class Test {
 	
@@ -55,6 +60,8 @@ Choice2 : 23
 Choice3 : 22
 Choice4 : 12
 Answer : 23
+------------------------------------
+Topic : <Java Language Basics>
 # Q. What will happen when you compile and run the following code?
 public class Test {
 	
@@ -70,6 +77,8 @@ Choice2 : Runtime error
 Choice3 : 8
 Choice4 : 10
 Answer : 8
+------------------------------------
+Topic : <Java Operators>
 # Q. What will happen when you compile and run the following code?
 public class Test{
 	
@@ -86,6 +95,8 @@ Choice2 : 3
 Choice3 : 2
 Choice4 : 4
 Answer : 2
+------------------------------------
+Topic : <Java Operators>
 # Q. What will happen when you compile and run the following code?
 public class Test{
 	
@@ -102,6 +113,8 @@ Choice2 : 2
 Choice3 : 4
 Choice4 : 1
 Answer : 2
+------------------------------------
+Topic : <Java Operators>
 # Q. What will happen when you compile and run the following code?
 public class Test{
 	
@@ -118,6 +131,8 @@ Choice2 : 0
 Choice3 : Compilation error
 Choice4 : None of the above
 Answer : 0
+------------------------------------
+Topic : <Java Operators>
 # Q. What will happen when you compile and run the following code?
 public class Test{
 	
@@ -132,96 +147,6 @@ public class Test{
 }
 
 
-# Q. What will happen when you compile and run the following code?
-class One{
-	int i = 1;
-	public int getInt(){
-		return i;
-	}
-}
-
-class Two extends One{
-	int i = 2;
-	public int getInt(){
-		return i;
-	}	
-}
-public class Test{
-	public static void main(String[] args) {
-		One one = new One();
-		Two two = (Two)one;
-		System.out.println( two.getInt() );
-	}
-}
-
-
-Choice1 : 1
-Choice2 : 2
-Choice3 : Compilation error
-Choice4 : Runtime error
-Answer : Runtime error
-# Q. What will happen when you compile and run the following code?
-class One{	
-	public static void print(){
-		System.out.println("1");
-	}
-}
-
-class Two extends One{
-	public static void print(){
-		System.out.println("2");
-	}
-}
-
-public class Test{	
-	public static void main(String args[]){
-		One one = new Two();
-		one.print();
-	}	
-}
-
-
-Choice1 : 1
-Choice2 : 2
-Choice3 : Compilation error
-Choice4 : Runtime error
-Answer : 1
-# Q. What will happen when you compile and run the following code?
-class One{	
-	public static void print(int i){
-		System.out.println("Parent");
-	}
-}
-
-class Two extends One{
-	public static void print(byte b){
-		System.out.println("Child");
-	}
-}
-
-public class Test{
-	
-	public static void main(String args[]){
-		One one = new Two();
-		one.print(10);
-	}	
-}
-
-
-Choice1 : Parent
-Choice2 : Child
-Choice3 : Compilation error
-Choice4 : Runtime error
-Answer : Parent
-# Q. Will this code compile successfully?
-class One{
-	public void process(){
-		System.out.println("Parent");
-	}
-}
-
-public abstract class Test extends One{
-	public abstract void process();
-}
-
+Topic : <conversation,introduction>
+# Q. Do you know me?
 

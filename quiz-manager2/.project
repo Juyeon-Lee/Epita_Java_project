@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>javadoc/JuyeonLee_MoeunSon.jar</name>
+			<type>1</type>
+			<location>C:/epita 학기/OOA&amp;UML&amp;JAVA/JuyeonLee_MoeunSon.jar</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -490,7 +490,7 @@ public class Launcher {
 		QuestionJDBCDAO dao = new QuestionJDBCDAO();
 		if (answer.equals("Y")) {
 			File file = new File("test1.txt");
-			for (int k = 0; k < fileQuestion.size() - 1; k++) {
+			for (int k = 0; k < fileQuestion.size(); k++) {
 				try {
 					writer = new FileWriter(file, true);
 					writer.write("Topic : <"+ dao.toStringofTopics(fileQuestion.get(k).getTopics()) +">");
@@ -509,8 +509,9 @@ public class Launcher {
 						writer.write(System.getProperty("line.separator"));
 						writer.write("Answer : " + mcqDao.showWhereMcqid(mcqid).getAnswer());
 						writer.write(System.getProperty("line.separator"));
-						writer.write(System.getProperty("line.separator"));
 					}
+					writer.write("------------------------------------");
+					writer.write(System.getProperty("line.separator"));
 					writer.flush();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -560,18 +561,18 @@ public class Launcher {
 				System.out.println(m.getCHOICE4());
 
 				System.out.println("-----------------------");
-				System.out.println("Please enter your answer(You should enter not number, but the whole answer.)");
+				System.out.println("Please enter your answer");
 
 				
 				answer = scanner.nextLine();
 				if( answer.length() ==0) // enter key condition
 					answer = scanner.nextLine();
-				System.out.println("answer: "+answer);
+				System.out.println("your answer: "+answer);
 				if (m.getAnswer().equals(answer))
 					grade++;
 			} else {
 				System.out.println("-----------------------");
-				System.out.println("Please enter your answer");
+				System.out.println("Please enter your answer(You should enter not number, but the whole answer.)");
 				answer = scanner.nextLine();
 				grade++;
 			}
