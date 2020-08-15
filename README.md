@@ -23,12 +23,18 @@ Before start using our application, the quiz manager works on the eclipse(consol
 [ h2 - bin - h2.bat(click) - connet the h2 console
 jdbc url : jdbc:h2:~/test
 user name : sa ]
+
 2. Copy queries in 'sturcture_question.sql' at sql folder in our project file and paste them into the h2 console, then execute.
+
 3. Copy queries in 'sampledata_question.sql' at sql folder in our project file and paste them into the h2 console, then execute.
+
 4. Finally, The initial data is saved after execution.
+
 5. Terminate the h2 console.
+
 6. Right click of our project file, and go run as-run configuration-arguments-VM arguments, then enter "-Dconf.location=app.properties"
-6. Run the Launcher at eclipse. (press ‘ctrl+F11’)
+
+7. Run the Launcher at eclipse. (press ‘ctrl+F11’)
 
 ## ORDER OF FUNCTION
 
@@ -37,18 +43,19 @@ The ‘admin questions’ part will be able to operate CRUD on Open Questions an
 Let’s talk about the ‘admin questions’ part. First, a manager can create/update/delete both open question and mcq question as many as he or she wants. Before update or delete, the manager can read a list of questions. It will include all information of questions. This function is same with ‘show all’. It will print everything in console. Plus, a manager can search questions by a topic.
 Next is the ‘student(solve a quiz)’ part. First, a student can choose to one's quiz by nothing, topic, or difficulty and solve the quiz. Second, student can choose to extract the quiz to a file after every quiz is finished. Finally, the student scores are printed and the quiz ends. 
 
-launcher
-|- admin questions
-   |- insert(create)
-   |- update
-   |- delete
-   |- show all(read)
-   |- search by topics
-|- student(solve a quiz)
-   |- insert student info
-      |- solve a quiz(all)
-      |- solve a quiz(by topics)
-      |- solve a quiz(by difficulty)
+launcher  
+> admin questions  
+>  > insert(create)  
+update  
+delete  
+show all(read)  
+search by topics  
+
+> student(solve a quiz)  
+>  > insert student info  
+>  >  > solve a quiz(all)  
+solve a quiz(by topics)  
+solve a quiz(by difficulty)  
   
 
 ## SCENARIO OF DATA MANAGEMENT
@@ -83,12 +90,12 @@ You should select table by answering as ‘1’ or ‘2’.
 
 We have two tables in database, which are ‘Question’ and ‘MCQQuestion’. At table Question, the primary key is ID and it’s integer. Also, there are QUESTION and TOPIC of varchar type, and there are MCQ and DIFFICULTY of integer type.
 
-  `Question`
-INT -	VARCHAR(1024) - INT	- VARCHAR(60) -	INT
+  `Question`  
+INT -	VARCHAR(1024) - INT	- VARCHAR(60) -	INT  
 ID - QUESTION -	MCQ	- TOPIC	- DIFFICULTY
 
 At table MCQQuestion, the primary key is MCQID and it’s integer. Also, there are CHOICE1, CHOICE2, CHOICE3, CHOICE4, and ANSWER of varchar type.
 
-  `MCQQuestion`
-INT	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)
+  `MCQQuestion`  
+INT	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)	-	VARCHAR(1024)  
 MCQID	-	CHOICE1	-	CHOICE2	-	CHOICE3	-	CHOICE4	-	Answer
